@@ -1,5 +1,5 @@
 # Tsoha22---Luontopalsta
-Luontopalsta on keskustelusovellus,jossa käyttäjät voivat kertoa luontohavainnoistaan ja -kokemuksistaan. Haluaisin toteuttaa sovelluksen niin, että käyttäjän viesti keskusteluketjussa voisi olla tekstin, kuvan, videon tai äänitteen muodossa. Haluaisinkin kysyä ohjaajalta: kuinka paljon vaativampaa tälläinen toteutus on pelkän tekstivaihtoehtoon verrattuna?
+Luontopalsta on keskustelusovellus,jossa käyttäjät voivat kertoa luontohavainnoistaan ja -kokemuksistaan. Haluaisin toteuttaa sovelluksen niin, että käyttäjän viesti keskusteluketjussa voisi olla tekstin, kuvan, videon tai äänitteen muodossa. Haluankin kysyä ohjaajalta: kuinka paljon vaativampaa tälläinen toteutus on pelkkään tekstivaihtoehtoon verrattuna?
 
 
 Tämä keskustelusovellus toimii Tietokantasovellus-opetusmateriaalissa esitellyn keskustelusovellusesimerkin tavoin (lähde: https://hy-tsoha.github.io/materiaali/aiheen_valinta/):
