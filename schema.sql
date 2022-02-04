@@ -5,3 +5,19 @@ CREATE TABLE users (
 	 password TEXT,
 	is_admin BOOLEAN
 );
+
+
+CREATE TABLE areas (
+    id SERIAL PRIMARY KEY,
+    content TEXT,
+    user_id INTEGER REFERENCES users,
+    sent_at TIMESTAMP
+);
+
+CREATE TABLE messages (
+    id SERIAL PRIMARY KEY,
+    content TEXT,
+    user_id INTEGER REFERENCES users,
+    area_id INTEGER REFERENCES areas,
+    sent_at TIMESTAMP
+);
