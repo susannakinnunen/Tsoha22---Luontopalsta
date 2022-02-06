@@ -1,22 +1,31 @@
 <!DOCTYPE html>
-Luontopalsta - keskustelualueet
-<hr>
 {% if session.user_id %}
+Luontopalsta - Tervetuloa jakamaan luontohavaintoja ja -kokemuksia! | Olet kirjautunut sisään.
+<p>
+Keskustelualueet:
+<hr>
 {% for area in areas %}
-<a href="/messages">{{ area[0] }}</a>
+<a href="/messages/{{ area[0] }}">{{ area[0] }}</a>
 <p>
 <i>Lähettäjä:</i> {{ area[1] }}
 <p>
 <i>Lisätty:</i> {{ area[2].strftime("%Y-%m-%d %H:%M:%S") }}
 <hr>
 {% endfor %}
-Olet kirjautunut sisään.
-<a href="/new_area">Lisää alue</a> |<a href="/logout">Kirjaudu ulos</a>
+<a href="/new_area">Lisää alue</a> | <a href="/logout">Kirjaudu ulos</a>
 {% else %}
+Luontopalsta - Tervetuloa jakamaan luontohavaintoja ja -kokemuksia!
+<p>
+Kirjautumalla sisään voit luoda uuden keskustelualueen, näet myös kaikkien alueiden viestiketjut ja voit lisätä niihin oman viestisi.
+<p>
+<a href="/login">Kirjaudu sisään</a> | Ei vielä tunnusta? <a href="/register">Luo tunnus täällä!</a>
+<p>
+Keskustelualueet:
+<hr>
 {% for area in areas %}
 {{ area[0] }}
 <i>Lisätty:</i> {{ area[2].strftime("%Y-%m-%d %H:%M:%S") }}
 <hr>
 {% endfor %}
-<a href="/login">Kirjaudu sisään</a>
 {% endif %}
+

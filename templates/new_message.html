@@ -1,7 +1,9 @@
 <!DOCTYPE html>
-<form action="/send_message" method="post">
+<form action="/send_message/{{ area_content }}" method="post">
+    {{ area_content }}
     Viesti: <br>
     <textarea name="content" rows="3" cols="40"></textarea>
     <br>
     <input type="submit" value="Lähetä">
     </form>
+

@@ -1,3 +1,4 @@
+from crypt import methods
 from app import app
 from flask import render_template, request, redirect
 import users, areas, messages
@@ -7,33 +8,38 @@ def index():
     list = areas.get_list_area()
     return render_template("index.html", count=len(list), areas=list)
 
-@app.route("/messages")
-def get_list_message():
-    print("näkyykö")
-    list = messages.get_list_message()
-    return render_template("messages.html", count=len(list), messages=list)
+@app.route("/messages/<string:content>")
+def get_list_message(content):
+    area_content = content
+    list = messages.get_list_message(area_content)
+    print(list)
+    return render_template("messages.html", count=len(list), messages=list, area_content=area_content)
+
 
 @app.route("/new_area")
 def new_area():
     return render_template("new_area.html")
 
-@app.route("/new_message")
-def new_message():
-    return render_template("new_message.html")
-
 @app.route("/send_area", methods=["POST"])
 def send_area():
     title = request.form["title"]
-    if areas.send(title):
+    if areas.send_area(title):
         return redirect("/")
     else:
         return render_template("error.html", message="Viestin lähetys ei onnistunut")
 
-@app.route("/send_message", methods=["POST"])
-def send_message():
-    content = request.form["content"]
-    if messages.send(content):
-        return redirect("/messages")
+
+@app.route("/new_message/<string:area_content>")
+def new_message(area_content):
+    return render_template("new_message.html", area_content=area_content)
+
+
+
+@app.route("/send_message/<string:area_content>", methods=["POST"])
+def send_message(area_content):
+    message_content = request.form["content"]
+    if messages.send_message(message_content, area_content):
+        return redirect("/messages/" + str(area_content))
     else:
         return render_template("error.html", message="Viestin lähetys ei onnistunut")
 
