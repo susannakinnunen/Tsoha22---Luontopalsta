@@ -1,18 +1,16 @@
 # Tsoha22---Luontopalsta
-Luontopalsta on keskustelusovellus,jossa käyttäjät voivat kertoa luontohavainnoistaan ja -kokemuksistaan. Haluaisin toteuttaa sovelluksen niin, että käyttäjän viesti keskusteluketjussa voisi olla tekstin, kuvan, videon tai äänitteen muodossa. Haluankin kysyä ohjaajalta: kuinka paljon vaativampaa tälläinen toteutus on pelkkään tekstivaihtoehtoon verrattuna?
+Luontopalsta on keskustelusovellus,jossa käyttäjät voivat kertoa luontohavainnoistaan ja -kokemuksistaan.
 
+Tällä hetkellä (6.2.) sovelluksessa on keskustelualueita ja niitä klikkaamalla pääsee näkemään ja lisäämään viestejä,jos on kirjautunut. Sovellus mahdollistaa käyttäjätunnuksen luomisen ja kirjautumisen olemassa olevalla käyttäjätunnuksella.
 
-Tämä keskustelusovellus toimii Tietokantasovellus-opetusmateriaalissa esitellyn keskustelusovellusesimerkin tavoin (lähde: https://hy-tsoha.github.io/materiaali/aiheen_valinta/):
-- Käyttäjä voi kirjautua sisään ja ulos sekä luoda uuden tunnuksen.
-- Käyttäjä näkee sovelluksen etusivulla listan alueista sekä jokaisen alueen ketjujen ja viestien määrän ja viimeksi lähetetyn viestin ajankohdan.
-- Käyttäjä voi luoda alueelle uuden ketjun antamalla ketjun otsikon ja aloitusviestin sisällön.
-- Käyttäjä voi kirjoittaa uuden viestin olemassa olevaan ketjuun. (Luontopalstalla käyttäjä voi myös mahdollisesti laittaa kuvan, videon tai äänitteen.)
-- Käyttäjä voi muokata luomansa ketjun otsikkoa sekä lähettämänsä viestin sisältöä. Käyttäjä voi myös poistaa ketjun tai viestin.
+Sovellus on keskeneräinen, en ole muun muassa edennyt vielä sovelluksen ulkoasun muotoiluun.
+Alkuperäisessä suunnitelmassa aioin tehdä keskustelualueita (joita vain ylläpitäjä voisi luoda). Peruskäyttäjät voisivat luoda alueisiin ketjuja ja lisätä niihin viestejä. Koin kuitenkin sovellukseen sopivammaksi sen, että kuka tahansa voi luoda uuden alueen. Jätin myös ketjut pois. 
+
+Ylläpitäjillä ei ole vielä mitään erikoisoikeuksia.
+
+Seuraavien viikkojen tavoitteet ovat:
+- Käyttäjä voi laittaa kuvan, videon tai äänitteen viestissä
+- Käyttäjä voi muokata lähettämänsä viestin sisältöä. Käyttäjä voi myös poistaa oman viestin.
 - Käyttäjä voi etsiä kaikki viestit, joiden osana on annettu sana.
-- Ylläpitäjä voi lisätä ja poistaa keskustelualueita.
-- Ylläpitäjä voi luoda salaisen alueen ja määrittää, keillä käyttäjillä on pääsy alueelle.
- 
-
-Luontopalstalla käyttäjän luoma tunnus on käyttäjän käyttäjänimi, mikä näkyy aina jokaisen julkaisun yhteydessä.
-Käyttäjälle pakollisia merkintöjä julkaisun yhteydessä ovat julkaisun (tyhjää julkaisua ei voi laittaa) lisäksi itse havainnon päivämäärä ja paikkakunta. Luontohavainnon julkaisun aika ja päivämäärä tulevat automaattisesti näkyville.
-
+- Ylläpitäjä voi lisätä ja poistaa keskustelualueita ja viestejä.
+- Käyttäjälle pakollisia merkintöjä julkaisun yhteydessä ovat julkaisun (tyhjää julkaisua ei voisi laittaa) lisäksi havainnon päivämäärä ja paikkakunta/alue.
