@@ -1,5 +1,5 @@
 # Tsoha22---Luontopalsta
-Luontopalsta on keskustelusovellus,jossa käyttäjät voivat kertoa luontohavainnoistaan ja -kokemuksistaan.
+Luontopalsta on keskustelusovellus,jossa käyttäjät voivat kertoa luontohavainnoistaan ja -kokemuksistaan. Voit kokeilla sovellusta Herokussa: https://tsoha-luontopalsta.herokuapp.com/
 
 Tällä hetkellä (6.2.) sovelluksessa on keskustelualueita ja niitä klikkaamalla pääsee näkemään ja lisäämään viestejä,jos on kirjautunut. Sovellus mahdollistaa käyttäjätunnuksen luomisen ja kirjautumisen olemassa olevalla käyttäjätunnuksella.
 
