@@ -1,4 +1,3 @@
-from crypt import methods
 from app import app
 from flask import render_template, request, redirect
 import users, areas, messages
@@ -23,7 +22,9 @@ def new_area():
 @app.route("/send_area", methods=["POST"])
 def send_area():
     title = request.form["title"]
-    if areas.send_area(title):
+    if len(title) <= 0:
+        return render_template("error.html", message="Alueen nimi ei voi olla tyhjä")
+    elif areas.send_area(title):
         return redirect("/")
     else:
         return render_template("error.html", message="Viestin lähetys ei onnistunut")
@@ -38,7 +39,9 @@ def new_message(area_content):
 @app.route("/send_message/<string:area_content>", methods=["POST"])
 def send_message(area_content):
     message_content = request.form["content"]
-    if messages.send_message(message_content, area_content):
+    if len(message_content) <= 0:
+        return render_template("error.html", message="Viesti ei voi olla tyhjä")
+    elif messages.send_message(message_content, area_content):
         return redirect("/messages/" + str(area_content))
     else:
         return render_template("error.html", message="Viestin lähetys ei onnistunut")
@@ -76,3 +79,17 @@ def register():
             return redirect("/")
         else:
             return render_template("error.html", message="Rekisteröinti ei onnistunut")
+
+@app.route("/report_area/<string:area_content>/<string:area_creator_user>",  methods=["POST"])
+def report_area(area_content, area_creator_user):
+    reporter = users.user_id()
+    return render_template("report_area.html", area_content=area_content, reporter=reporter, area_creator_user=area_creator_user)
+
+
+
+
+@app.route("/send_report_area/<string:area_content>/string:<area_creator_user>", methods=["POST"])
+def send_report_area(area_content, area_creator_user,reporter):
+    message_content = request.form["content"]
+    areas.send_report_area(area_content,area_creator_user,reporter,message_content)
+    return redirect("/messages/" + str(area_content))

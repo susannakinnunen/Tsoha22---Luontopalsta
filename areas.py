@@ -22,4 +22,9 @@ def get_area_id(area_content):
     area_id = list_area_id[0]
     return area_id
 
-  
+def send_report_area(area_content,area_creator_user,reporter,message_content):
+    area_id = get_area_id()
+    sql = "INSERT INTO reported (area_id, sent_at, area_creator_user, reporter, report_message_content) VALUES (:area_id, NOW(), :area_creator_user, :reporter, :message_content)"
+    result = db.session.execute(sql, {"area_id":area_id, "area_creator_user":area_creator_user, "reporter":reporter, "report_message_content":message_content})
+    db.session.commit()
+    return True

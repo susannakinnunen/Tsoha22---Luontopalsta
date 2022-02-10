@@ -1,0 +1,10 @@
+<!DOCTYPE html>
+<form action="/send_report_area/{{ area_content }}/{{ area_creator_user }}" method="post">
+    Raportoi alue: {{ area_content }}
+    Perustelut: <br>
+    <textarea name="content" rows="3" cols="40"></textarea>
+    <br>
+    <input type="submit" value="Lähetä">
+    <input type="hidden" name="reporter" value= "{{ reporter }}">
+    <input type="hidden" name="area_creator_user" value="{{ area_creator_user }}">
+    </form>
