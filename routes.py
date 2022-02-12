@@ -5,14 +5,28 @@ import users, areas, messages
 @app.route("/")
 def index():
     list = areas.get_list_area()
+    if users.is_admin():
+        is_admin = True
+        return render_template("index.html", count=len(list), areas=list, is_admin=is_admin)
+    else: 
+        is_admin = False
     return render_template("index.html", count=len(list), areas=list)
 
-@app.route("/messages/<string:content>")
+@app.route("/messages/<string:content>", methods=["GET"])
 def get_list_message(content):
     area_content = content
     list = messages.get_list_message(area_content)
-    print(list)
     return render_template("messages.html", count=len(list), messages=list, area_content=area_content)
+
+@app.route("/admin")
+def admin():
+    return render_template("admin.html")
+
+@app.route("/reported_areas")
+def get_list_reported_areas():
+    list = areas.get_list_reported_areas()
+    return render_template("reported_areas.html", count=len(list), areas=list)
+
 
 
 @app.route("/new_area")
@@ -59,6 +73,7 @@ def login():
             return redirect("/")
         else:
             return render_template("error.html", message="Väärä tunnus tai salasana")
+    
 
 @app.route("/logout")
 def logout():
@@ -80,16 +95,18 @@ def register():
         else:
             return render_template("error.html", message="Rekisteröinti ei onnistunut")
 
-@app.route("/report_area/<string:area_content>/<string:area_creator_user>",  methods=["POST"])
-def report_area(area_content, area_creator_user):
-    reporter = users.user_id()
-    return render_template("report_area.html", area_content=area_content, reporter=reporter, area_creator_user=area_creator_user)
+@app.route("/report_area/<string:area_content>")
+def report_area(area_content):
+    return render_template("report_area.html", area_content=area_content)
 
 
-
-
-@app.route("/send_report_area/<string:area_content>/string:<area_creator_user>", methods=["POST"])
-def send_report_area(area_content, area_creator_user,reporter):
-    message_content = request.form["content"]
-    areas.send_report_area(area_content,area_creator_user,reporter,message_content)
+@app.route("/send_report_area/<string:area_content>", methods=["POST"])
+def send_report_area(area_content):
+    report_message_content = request.form["content"]
+    areas.send_report_area(area_content,report_message_content)
     return redirect("/messages/" + str(area_content))
+
+@app.route("/hide_area/<string:content>")
+def hide_area(content):
+    areas.hide_area(content)
+    return redirect("/reported_areas")

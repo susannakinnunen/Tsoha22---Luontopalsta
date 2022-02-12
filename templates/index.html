@@ -12,7 +12,7 @@ Keskustelualueet:
 <i>Lisätty:</i> {{ area[2].strftime("%Y-%m-%d %H:%M:%S") }}
 <hr>
 {% endfor %}
-<a href="/new_area">Lisää alue</a> | <a href="/logout">Kirjaudu ulos</a>
+<a href="/new_area">Lisää alue</a> | <a href="/logout">Kirjaudu ulos</a> | {% if is_admin %} <a href="/admin">Ylläpito</a> {% endif %}
 {% else %}
 Luontopalsta - Tervetuloa jakamaan luontohavaintoja ja -kokemuksia!
 <p>
@@ -28,4 +28,7 @@ Keskustelualueet:
 <hr>
 {% endfor %}
 {% endif %}
+
+
+
 

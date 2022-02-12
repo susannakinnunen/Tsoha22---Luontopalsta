@@ -33,3 +33,20 @@ def register(username, password):
 
 def user_id():
     return session.get("user_id",0)
+
+
+def is_admin():
+    userid = user_id()
+    print(f"printtaa userid:{userid}")
+    sql = "SELECT is_admin FROM users WHERE id=:user_id"
+    result = db.session.execute(sql, {"user_id":userid})
+    list_result = result.fetchone()
+    if list_result != None:
+        print(f"printtaa list_result[0] {list_result}")
+        is_admin_value = list_result[0]
+        if is_admin_value:
+            return True
+        else:
+            return False
+    else:
+        return False
