@@ -27,6 +27,10 @@ def get_list_reported_areas():
     list = areas.get_list_reported_areas()
     return render_template("reported_areas.html", count=len(list), areas=list)
 
+@app.route("/reported_messages")
+def get_list_reported_messages():
+    list = messages.get_list_reported_messages()
+    return render_template("reported_messages.html", count=len(list), messages=list)
 
 
 @app.route("/new_area")
@@ -110,3 +114,20 @@ def send_report_area(area_content):
 def hide_area(content):
     areas.hide_area(content)
     return redirect("/reported_areas")
+
+
+@app.route("/hide_message/<string:content>/<string:area>")
+def hide_message(content,area):
+    messages.hide_message(content,area)
+    return redirect("/reported_areas")
+
+@app.route("/report_message/<string:message_id>/<string:area_content>")
+def report_message(message_id,area_content):
+    message_content = messages.get_message(message_id)
+    return render_template("report_message.html", message_id=message_id, message_content=message_content,area_content=area_content)
+
+@app.route("/send_report_message/<string:message_id>/<string:area_content>", methods=["POST"])
+def send_report_message(message_id,area_content):
+    report_message_content = request.form["content"]
+    messages.send_report_message(message_id,report_message_content,area_content)
+    return redirect("/messages/" + str(area_content))

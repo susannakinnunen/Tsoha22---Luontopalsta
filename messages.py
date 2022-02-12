@@ -3,7 +3,7 @@ import users,areas
 
 def get_list_message(area_content):
     area_id = areas.get_area_id(area_content)
-    sql = "SELECT M.content, U.username, M.sent_at FROM messages M, users U, areas A WHERE M.user_id=U.id AND A.id=:area_id AND M.area_id=:area_id ORDER BY M.id"
+    sql = "SELECT M.content, U.username, M.sent_at, M.id FROM messages M, users U, areas A WHERE M.user_id=U.id AND A.id=:area_id AND M.area_id=:area_id AND M.visible=True ORDER BY M.id"
     result = db.session.execute(sql, {"area_id":area_id})
     return result.fetchall()
 
@@ -12,8 +12,41 @@ def send_message(message_content,area_content):
     area_id = areas.get_area_id(area_content)
     if user_id == 0:
         return False
-    sql = "INSERT INTO messages (content, user_id, area_id, sent_at) VALUES (:content, :user_id, :area_id, NOW())"
+    sql = "INSERT INTO messages (content, user_id, area_id, sent_at, visible) VALUES (:content, :user_id, :area_id, NOW(), True)"
     db.session.execute(sql, {"content":message_content, "user_id":user_id, "area_id":area_id})
     db.session.commit()
     return True
 
+def get_message(message_id):
+    sql = "SELECT content FROM messages WHERE id=:message_id"
+    result = db.session.execute(sql, {"message_id":message_id})
+    list_result = result.fetchone()
+    message_content = list_result[0]
+    return message_content
+
+def get_message_creator_id(message_id):
+    sql= "SELECT user_id FROM messages WHERE id=:message_id"
+    result = db.session.execute(sql, {"message_id":message_id})
+    list_result = result.fetchone()
+    message_creator_id = list_result[0]
+    return message_creator_id
+
+def send_report_message(message_id,report_message_content, area_content):
+    reporter = users.user_id()
+    message_creator_id = get_message_creator_id(message_id)
+    area_id = areas.get_area_id(area_content)
+    sql = "INSERT INTO reported_messages (message_id, area_id, sent_at, message_creator_id, reporter, report_message_content) VALUES (:message_id, :area_id, NOW(), :message_creator_id, :reporter, :report_message_content)"
+    result = db.session.execute(sql, {"message_id":message_id, "area_id":area_id, "message_creator_id":message_creator_id, "reporter":reporter, "report_message_content":report_message_content})
+    db.session.commit()
+    return True
+
+def get_list_reported_messages():
+    sql = "SELECT M.content, M.area_id, Ua.username, Ub.username, R.report_message_content, R.sent_at, A.content FROM messages M, users Ua, users Ub, reported_messages R, areas A WHERE M.id=R.message_id AND Ua.id=R.message_creator_id AND Ub.id=R.reporter AND A.id=R.area_id AND M.visible=True"
+    result = db.session.execute(sql)
+    return result.fetchall()
+
+def hide_message(content,area):
+    sql = "UPDATE messages SET visible=False WHERE content=:content AND area_id=:area"
+    db.session.execute(sql, {"content":content, "area":area})
+    db.session.commit()
+    return True

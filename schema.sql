@@ -31,3 +31,12 @@ CREATE TABLE reported_areas (
     report_message_content TEXT
 );
 
+CREATE TABLE reported_messages (
+	id SERIAL PRIMARY KEY,
+	 message_id INTEGER REFERENCES messages,
+	 area_id INTEGER REFERENCES areas,
+	 sent_at TIMESTAMP,
+	 message_creator_id INTEGER REFERENCES users,
+	 reporter INTEGER REFERENCES users,
+	 report_message_content TEXT
+);

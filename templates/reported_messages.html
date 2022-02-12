@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+{% if count == 0 %}
+Ei ilmoituksia
+<hr>
+<a href="/">Etusivulle</a> | <a href="/logout">Kirjaudu ulos</a> | <a href="/admin">Ylläpito</a>
+{% else %}
+<a href="/">Etusivulle</a> | <a href="/logout">Kirjaudu ulos</a> | <a href="/admin">Ylläpito</a>
+<p>
+<hr>
+Raportoidut viestit:
+<hr>
+{% for message in messages %}
+Viesti:
+{{ message[0] }}
+<p>
+<i>Viestin lähettäjä:</i> {{ message[2] }}
+<p>
+<i>Alueen nimi:</i> {{ message[6] }}
+<p>
+<i>Ilmoituksen tehnyt:</i> {{ message[3] }}
+<p>
+<i>Perustelut ilmoitukselle:</i> {{ message[4] }}
+<p>
+<i>Ilmoitus annettu:</i> {{ message[5].strftime("%Y-%m-%d %H:%M:%S") }}
+<p>
+<a href="/hide_message/{{ message[0] }}/{{ message[1] }}">Piilota viesti</a>
+<hr>
+{% endfor %}
+{% endif %}

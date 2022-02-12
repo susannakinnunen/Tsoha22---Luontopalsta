@@ -1,6 +1,10 @@
 <!DOCTYPE html>
-<form action="/send_report_area/{{ area_content }}" method="post">
-    Raportoi alue: {{ area_content }}
+<form action="/send_report_message/{{ message_id }}/{{ area_content }}" method="post">
+    Raportoi viesti:
+    <p>
+    Alue: {{ area_content }}
+    <p>
+    Viesti:{{ message_content }}
     <p>
     Perustelut: <br>
     <textarea name="content" rows="3" cols="40"></textarea>

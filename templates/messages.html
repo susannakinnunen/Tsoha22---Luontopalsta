@@ -5,14 +5,14 @@
 <p>
 <a href="/">Etusivulle</a> | <a href="/logout">Kirjaudu ulos</a>
 {% else %}
-{{ area_content }} | <a href="/new_message/{{ area_content }}">Lisää viesti</a> | <a href="/">Etusivulle</a> | <a href="/logout">Kirjaudu ulos</a> 
-<p>
-<a href="/report_area/{{ area_content }}">Kerro epäasiallisesta alueesta</a>
+{{ area_content }} | <a href="/new_message/{{ area_content }}">Lisää viesti</a> | <a href="/">Etusivulle</a> | <a href="/logout">Kirjaudu ulos</a> | <a href="/report_area/{{ area_content }}">Kerro epäasiallisesta alueesta</a>
 <hr>
 {% for message in messages %}
 <i>Viesti:</i> {{ message[0] }}
 <p>
 <i>Lähettäjä:</i> {{ message[1] }} | <i>Aika:</i> {{ message[2].strftime("%Y-%m-%d %H:%M:%S") }}
+<p>
+<a href="/report_message/{{ message[3] }}/{{ area_content }}">Kerro epäasiallisesta viestistä</a>
 <hr>
 {% endfor %}
 {% endif %}
