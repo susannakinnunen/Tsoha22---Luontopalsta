@@ -1,3 +1,7 @@
 .env
 __pycache__
 venv
+heroku-linux-x64.tar.gz
+heroku/
+heroku_install.sh
+
