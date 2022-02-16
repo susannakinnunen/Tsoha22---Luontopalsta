@@ -10,7 +10,7 @@ Ei ilmoituksia
 ILMOITUKSET:
 <hr>
 {% for area in areas %}
-<a href="/messages/{{ area[0] }}">{{ area[0] }}</a>
+<a href="/messages/{{ area[0] }}/{{ area[5] }}">{{ area[0] }}</a>
 <p>
 <i>Alueen laatija:</i> {{ area[1] }}
 <p>
@@ -20,7 +20,7 @@ ILMOITUKSET:
 <p>
 <i>Ilmoitus annettu:</i> {{ area[4].strftime("%Y-%m-%d %H:%M:%S") }}
 <p>
-<a href="/hide_area/{{ area[0] }}">Piilota alue</a>
+<a href="/hide_area/{{ area[0] }}/{{ area[5] }}">Piilota alue</a>
 <hr>
 {% endfor %}
 {% endif %}
