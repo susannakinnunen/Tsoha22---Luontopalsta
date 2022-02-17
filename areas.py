@@ -40,6 +40,8 @@ def send_report_area(area_content,report_message_content,time):
     area_id = get_area_id(area_content,time)
     area_creator_id = get_area_creator_id(area_content,time)
     reporter = users.user_id()
+    if reporter == 0:
+        return False
     sql = "INSERT INTO reported_areas (area_id, sent_at, area_creator_id, reporter, report_message_content, area_created_at) VALUES (:area_id, NOW(), :area_creator_id, :reporter, :report_message_content, :time)"
     result = db.session.execute(sql, {"area_id":area_id, "area_creator_id":area_creator_id, "reporter":reporter, "report_message_content":report_message_content, "time":time})
     db.session.commit()

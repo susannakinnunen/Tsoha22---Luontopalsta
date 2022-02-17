@@ -42,12 +42,12 @@ def send_report_message(message_id,report_message_content, area_content, message
     return True
 
 def get_list_reported_messages():
-    sql = "SELECT M.content, M.area_id, Ua.username, Ub.username, R.report_message_content, R.sent_at, A.content, M.sent_at FROM messages M, users Ua, users Ub, reported_messages R, areas A WHERE M.id=R.message_id AND Ua.id=R.message_creator_id AND Ub.id=R.reporter AND A.id=R.area_id AND M.visible=True"
+    sql = "SELECT M.content, M.area_id, Ua.username, Ub.username, R.report_message_content, R.sent_at, A.content, M.sent_at FROM messages M, users Ua, users Ub, reported_messages R, areas A WHERE M.id=R.message_id AND Ua.id=R.message_creator_id AND Ub.id=R.reporter AND M.area_id=A.id AND A.id=R.area_id AND M.visible=True AND A.visible=True"
     result = db.session.execute(sql)
     return result.fetchall()
 
 def hide_message(content,area_id,message_sent_at):
     sql = "UPDATE messages SET visible=False WHERE content=:content AND area_id=:area_id AND sent_at=:message_sent_at"
-    db.session.execute(sql, {"content":content, "area":area_id, "message_sent_at":message_sent_at})
+    db.session.execute(sql, {"content":content, "area_id":area_id, "message_sent_at":message_sent_at})
     db.session.commit()
     return True

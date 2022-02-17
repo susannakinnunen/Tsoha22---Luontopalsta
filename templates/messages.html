@@ -5,7 +5,7 @@
 <p>
 <a href="/">Etusivulle</a> | <a href="/logout">Kirjaudu ulos</a>
 {% else %}
-{{ area_content }} | <a href="/new_message/{{ area_content }}/{{ time }}">Lisää viesti</a> | <a href="/">Etusivulle</a> | <a href="/logout">Kirjaudu ulos</a> | <a href="/report_area/{{ area_content }}/{{ time }}">Kerro epäasiallisesta alueesta</a>
+{{ area_content }} | <a href="/new_message/{{ area_content }}/{{ time }}">Lisää viesti</a> | <a href="/">Etusivulle</a> | <a href="/logout">Kirjaudu ulos</a> | <a href="/report_area/{{ area_content }}/{{ time }}">Kerro epäasiallisesta alueesta</a> | Olet kirjautunut sisään käyttäjätunnuksella {{ user_name }}
 <hr>
 {% for message in messages %}
 <i>Viesti:</i> {{ message[0] }}

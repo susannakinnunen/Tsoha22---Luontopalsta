@@ -1,7 +1,8 @@
 #from pickle import FALSE
 from db import db
-from flask import session
+from flask import session, abort, request
 from werkzeug.security import check_password_hash, generate_password_hash
+import secrets
 
 def login(username, password):
     sql = "SELECT id, password FROM users WHERE username=:username"
@@ -12,6 +13,7 @@ def login(username, password):
     else:
         if check_password_hash(user.password, password):
             session["user_id"] = user.id
+            session["csrf_token"] = secrets.token_hex(16)
             return True
         else:
             return False
@@ -31,9 +33,24 @@ def register(username, password):
 
     return login(username, password)
 
+def get_user_name():
+    userid = user_id()
+    if userid != 0:
+        sql = "SELECT username FROM users WHERE id=:userid"
+        result = db.session.execute(sql, {"userid":userid})
+        list_result = result.fetchone()
+        username = list_result[0]
+        return username
+    else:
+        return False
+
+
 def user_id():
     return session.get("user_id",0)
 
+def check_csrf():
+    if session["csrf_token"] != request.form["csrf_token"]:
+        abort(403)
 
 def is_admin():
     userid = user_id()

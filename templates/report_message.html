@@ -9,7 +9,10 @@
     Perustelut: <br>
     <textarea name="content" rows="3" cols="40"></textarea>
     <br>
-    <input type="submit" value="Lähetä">
+    <input type="submit" value="Lähetä"> <br>
+    <hr>
+    Olet kirjautunut sisään käyttäjätunnuksella {{ user_name }}
     <input type="hidden" name="reporter" value= "{{ reporter }}">
     <input type="hidden" name="area_creator_user" value="{{ area_creator_user }}">
+    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
     </form>

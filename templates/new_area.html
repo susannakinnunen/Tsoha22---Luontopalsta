@@ -3,5 +3,8 @@
     <br>
     Alueen otsikko: <input type="text" name="title">
     <br>
-    <input type="submit" value="Lähetä">
+    <input type="submit" value="Lähetä"> <br>
+    <hr>
+    Olet kirjautunut sisään käyttäjätunnuksella {{ user_name }}
+    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
     </form>

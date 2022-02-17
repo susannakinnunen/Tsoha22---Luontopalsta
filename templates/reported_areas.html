@@ -2,12 +2,12 @@
 {% if count == 0 %}
 Ei ilmoituksia
 <hr>
-<a href="/">Etusivulle</a> | <a href="/logout">Kirjaudu ulos</a> | <a href="/admin">Ylläpito</a>
+<a href="/">Etusivulle</a> | <a href="/logout">Kirjaudu ulos</a> | <a href="/admin">Ylläpito</a> | Olet kirjautunut sisään käyttäjätunnuksella {{ user_name }}
 {% else %}
-<a href="/">Etusivulle</a> | <a href="/logout">Kirjaudu ulos</a> | <a href="/admin">Ylläpito</a>
+<a href="/">Etusivulle</a> | <a href="/logout">Kirjaudu ulos</a> | <a href="/admin">Ylläpito</a> | Olet kirjautunut sisään käyttäjätunnuksella {{ user_name }}
 <p>
 <hr>
-ILMOITUKSET:
+Raportoidut alueet:
 <hr>
 {% for area in areas %}
 <a href="/messages/{{ area[0] }}/{{ area[5] }}">{{ area[0] }}</a>
