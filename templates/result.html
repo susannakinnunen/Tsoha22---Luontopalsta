@@ -1,0 +1,10 @@
+TULOKSET:
+<hr>
+<ul>
+{% for result in search_results %}
+Alue: {{ result[1] }}
+<li> Viesti: {{ result[0] }}
+{% endfor %}
+</ul>
+<hr>
+<a href="/">Etusivulle</a>

@@ -1,4 +1,3 @@
-from email import message
 from db import db
 import users,areas
 
@@ -70,3 +69,9 @@ def delete_message(message_id):
     db.session.execute(sql, {"message_id":message_id})
     db.session.commit()
     return True
+
+def search(query):
+    sql = "SELECT M.content, A.content FROM messages M, areas A WHERE M.content LIKE :query AND M.area_id = A.id"
+    result = db.session.execute(sql, {"query":"%"+query+"%"})
+    messages = result.fetchall()
+    return messages

@@ -199,3 +199,13 @@ def remove_area_report(area_report_id):
 def remove_message_report(message_report_id):
     messages.remove_message_report(message_report_id)
     return redirect("/reported_messages")
+
+@app.route("/query")
+def query():
+    return render_template("query.html")
+
+@app.route("/result")
+def result():
+    query = request.args["query"]
+    search_results = messages.search(query)
+    return render_template("result.html", search_results=search_results)
