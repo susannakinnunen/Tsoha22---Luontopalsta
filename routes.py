@@ -1,3 +1,4 @@
+from crypt import methods
 from app import app
 from flask import render_template, request, redirect
 import users, areas, messages
@@ -14,6 +15,38 @@ def index():
     else: 
         is_admin = False
     return render_template("index.html", count=len(list), areas=list,user_name=user_name)
+
+@app.route("/edit_message/<string:message_id>")
+def edit_message(message_id):
+    message_content = messages.get_message(message_id)
+    user_name = users.get_user_name()
+    return render_template("edit_message.html", message_content=message_content,message_id=message_id, user_name=user_name)
+  
+
+@app.route("/send_message_edit", methods=["GET","POST"])
+def send_message_edit():
+    check_csrf = users.check_csrf()
+    edited_message  = request.form["content"]
+    message_id = request.form["message_id"]
+    messages.edit_message(message_id,edited_message)
+    area_content = areas.get_area_content(message_id)
+    area_creation_time = areas.get_area_sent_at(area_content,message_id)
+    return redirect("/messages/"+ str(area_content) + "/" + str(area_creation_time))
+
+@app.route("/delete_message/<string:message_id>")
+def delete_message(message_id):
+    message_content = messages.get_message(message_id)
+    area_content = areas.get_area_content(message_id)
+    area_creation_time = areas.get_area_sent_at(area_content,message_id)
+    return render_template("delete_message.html", message_content=message_content, message_id=message_id,area_content=area_content,area_creation_time=area_creation_time)
+
+@app.route("/deletion_confirmation/<string:message_id>")
+def deletion_confirmation(message_id):
+    messages.delete_message(message_id)
+    area_content = areas.get_area_content(message_id)
+    area_creation_time = areas.get_area_sent_at(area_content,message_id)
+    return render_template("deletion_confirmation.html", area_content=area_content,area_creation_time=area_creation_time)
+
 
 @app.route("/messages/<string:content>/<string:time>", methods=["GET"])
 def get_list_message(content,time):
@@ -156,3 +189,13 @@ def send_report_message(message_id,area_content,message_sent_at):
     messages.send_report_message(message_id,report_message_content,area_content,message_sent_at,area_sent_at)
     print("päästäänkö3")
     return redirect("/messages/" + str(area_content) + "/" + str(area_sent_at))
+
+@app.route("/remove_area_report/<string:area_report_id>")
+def remove_area_report(area_report_id):
+    areas.remove_area_report(area_report_id)
+    return redirect("/reported_areas")
+
+@app.route("/remove_message_report/<string:message_report_id>")
+def remove_message_report(message_report_id):
+    messages.remove_message_report(message_report_id)
+    return redirect("/reported_messages")

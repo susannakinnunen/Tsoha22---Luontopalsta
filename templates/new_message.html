@@ -3,10 +3,10 @@
     {{ area_content }}
     Viesti: <br>
     <textarea name="content" rows="3" cols="40"></textarea>
-    <br>
-    <hr>
-    Olet kirjautunut sisään käyttäjätunnuksella {{ user_name }}
+    <p>
     <input type="submit" value="Lähetä">
+    <hr>
+    Olet kirjautunut sisään käyttäjätunnuksella {{ user_name }}S
     <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
     </form>
 

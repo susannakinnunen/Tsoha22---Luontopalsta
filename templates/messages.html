@@ -12,7 +12,7 @@
 <p>
 <i>Lähettäjä:</i> {{ message[1] }} | <i>Aika:</i> {{ message[2].strftime("%Y-%m-%d %H:%M:%S") }}
 <p>
-<a href="/report_message/{{ message[3] }}/{{ area_content }}/{{ message[2] }}">Kerro epäasiallisesta viestistä</a>
+<a href="/report_message/{{ message[3] }}/{{ area_content }}/{{ message[2] }}">Kerro epäasiallisesta viestistä</a> {% if user_name == message[1]%}|| <a href="/edit_message/{{ message[3] }}">Muokkaa omaa viestiäsi</a> | <a href="/delete_message/{{ message[3] }}">Poista tämä viesti</a> {% endif %}
 <hr>
 {% endfor %}
 {% endif %}

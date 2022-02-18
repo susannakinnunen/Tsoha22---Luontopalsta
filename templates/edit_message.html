@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<form action="/send_message_edit" method="post">
+    Vanha viesti: <br>
+    {{ message_content }}
+    <hr>
+    Muokkaa vanhaa viestiä: <br>
+    <textarea name="content" rows="3" cols="40" value=""></textarea>
+    <br>
+    <hr>
+    <input type="submit" value="Lähetä"> <br>
+    <p>
+    Olet kirjautunut sisään käyttäjätunnuksella {{ user_name }}
+    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
+    <input type="hidden" name="message_id" value="{{ message_id }}">
+    </form>
