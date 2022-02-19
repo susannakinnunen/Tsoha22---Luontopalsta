@@ -1,4 +1,3 @@
-from crypt import methods
 from app import app
 from flask import render_template, request, redirect
 import users, areas, messages
@@ -54,7 +53,8 @@ def get_list_message(content,time):
     area_content = content
     area_creation_time = time
     list = messages.get_list_message(area_content, area_creation_time)
-    return render_template("messages.html", count=len(list), messages=list, area_content=area_content, time=time, user_name=user_name)
+    list_ob_info = messages.get_list_ob_info()
+    return render_template("messages.html", count=len(list), messages=list, ob_infos = list_ob_info, area_content=area_content, time=time, user_name=user_name)
 
 @app.route("/admin")
 def admin():
@@ -80,6 +80,8 @@ def send_area():
     title = request.form["title"]
     if len(title) <= 0:
         return render_template("error.html", message="Alueen nimi ei voi olla tyhjä")
+    if len(title) > 100:
+        return render_template("error.html", error="Alueen nimi on liian pitkä")
     elif areas.send_area(title):
         return redirect("/")
     else:
@@ -97,12 +99,29 @@ def new_message(area_content,time):
 def send_message(area_content,time):
     check_csrf = users.check_csrf()
     message_content = request.form["content"]
+    observation_date = request.form["date"]
+    observation_time = request.form["time"]
+    location = request.form["name"]
     if len(message_content) <= 0:
         return render_template("error.html", message="Viesti ei voi olla tyhjä")
-    elif messages.send_message(message_content, area_content,time):
+    if len(message_content) > 5000:
+        return render_template("error.html", error="Viesti on liian pitkä")
+    if len(str(observation_date)) <= 0:
+        return render_template("error.html", message="Lisää vielä päivämäärä, kiitos!")
+    if len(str(observation_time)) <= 0:
+        return render_template("error.html", message="Lisää vielä kellonaika, kiitos!")
+    if len(location) <= 0:
+        return render_template("error.html", message="Lisää vielä sijainti, kiitos!")
+    
+    elif messages.send_message(message_content, area_content,time, observation_date=observation_date,observation_time=observation_time,location=location):
         return redirect("/messages/" + str(area_content) + "/" + str(time))
     else:
         return render_template("error.html", message="Viestin lähetys ei onnistunut")
+
+    
+
+
+
 
 
 
@@ -149,6 +168,8 @@ def report_area(area_content,time):
 def send_report_area(area_content,time):
     check_csrf = users.check_csrf()
     report_message_content = request.form["content"]
+    if len(report_message_content) > 5000:
+        return render_template("error.html", error="Perustelut-osio on liian pitkä")
     areas.send_report_area(area_content,report_message_content,time)
     print(f"printtaa{time}")
     return redirect("/messages/" + str(area_content) + "/" + str(time))
@@ -183,11 +204,10 @@ def report_message(message_id,area_content,message_sent_time):
 def send_report_message(message_id,area_content,message_sent_at):
     check_csrf = users.check_csrf()
     report_message_content = request.form["content"]
-    print("päästäänkö1")
+    if len(report_message_content) > 5000:
+        return render_template("error.html", error="Perustelut-osio on liian pitkä")
     area_sent_at = areas.get_area_sent_at(area_content,message_id)
-    print("päästäänkö2")
     messages.send_report_message(message_id,report_message_content,area_content,message_sent_at,area_sent_at)
-    print("päästäänkö3")
     return redirect("/messages/" + str(area_content) + "/" + str(area_sent_at))
 
 @app.route("/remove_area_report/<string:area_report_id>")
@@ -208,4 +228,6 @@ def query():
 def result():
     query = request.args["query"]
     search_results = messages.search(query)
+    if len(search_results) == 0:
+        return render_template("error.html", message=f"Hakusanalla '{query}' ei tuloksia.")
     return render_template("result.html", search_results=search_results)

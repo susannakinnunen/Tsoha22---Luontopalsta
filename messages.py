@@ -7,13 +7,22 @@ def get_list_message(area_content,time):
     result = db.session.execute(sql, {"area_id":area_id, "area_creation_time":time})
     return result.fetchall()
 
-def send_message(message_content,area_content,time):
+def get_list_ob_info():
+    sql = "SELECT day, time, message_id, location FROM observation_info"
+    result = db.session.execute(sql)
+    return result.fetchall()    
+
+def send_message(message_content,area_content,time,observation_date,observation_time,location):
     user_id = users.user_id()
     area_id = areas.get_area_id(area_content,time)
     if user_id == 0:
         return False
-    sql = "INSERT INTO messages (content, user_id, area_id, sent_at, visible) VALUES (:content, :user_id, :area_id, NOW(), True)"
-    db.session.execute(sql, {"content":message_content, "user_id":user_id, "area_id":area_id})
+    sql_messages = "INSERT INTO messages (content, user_id, area_id, sent_at, visible) VALUES (:content, :user_id, :area_id, NOW(), True) RETURNING id"
+    result = db.session.execute(sql_messages, {"content":message_content, "user_id":user_id, "area_id":area_id})
+    db.session.commit()
+    message_id = result.fetchone()[0]
+    sql_observation_info = "INSERT INTO observation_info (day,time,message_id,location) VALUES (:observation_date, :observation_time, :message_id, :location)"
+    db.session.execute(sql_observation_info, {"observation_date":observation_date, "observation_time":observation_time, "message_id":message_id, "location":location})
     db.session.commit()
     return True
 

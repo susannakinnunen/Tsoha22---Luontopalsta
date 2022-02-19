@@ -44,3 +44,13 @@ CREATE TABLE reported_messages (
 	 report_message_content TEXT
 	 org_message_sent_at TIMESTAMP REFERENCES messages
 );
+
+CREATE TABLE observation_info (
+	id SERIAL PRIMARY KEY,
+	day DATE,
+	time TIME WITHOUT TIME ZONE,
+	message_id INTEGER REFERENCES messages,
+	location TEXT
+);
+	
+	

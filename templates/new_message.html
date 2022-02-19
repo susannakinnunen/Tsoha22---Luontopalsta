@@ -4,9 +4,12 @@
     Viesti: <br>
     <textarea name="content" rows="3" cols="40"></textarea>
     <p>
+    Sijainti: <input type="text" name="name" placeholder="Maantieteellinen sijainti (esim. paikkakunta,maa,koordinaatit)" size="70" required>  Päivämäärä: <input type="date" name="date"> <br>
+    Kellonaika: <input type="time" name="time">
+    <p>
     <input type="submit" value="Lähetä">
     <hr>
-    Olet kirjautunut sisään käyttäjätunnuksella {{ user_name }}S
+    Olet kirjautunut sisään käyttäjätunnuksella {{ user_name }}
     <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
     </form>
 
