@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<form action="/send_image/{{ area_content }}/{{ time }}" method="POST" enctype="multipart/form-data">
+    {{ area_content }}
+    Anna kuvalle kuvaava otsikko: <input type="text" name="title">
+    Kuva (.jpg formaatissa): <input type="file" name="file">
+    <p>
+    Sijainti: <input type="text" name="name" placeholder="Maantieteellinen sijainti (esim. paikkakunta,maa,koordinaatit)" size="70" required>  Päivämäärä: <input type="date" name="date"> <br>
+    Kellonaika: <input type="time" name="time">
+    <p>
+    <input type="submit" value="Lähetä">
+    <hr>
+    Olet kirjautunut sisään käyttäjätunnuksella {{ user_name }}
+    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
+    </form>
+
+    
+    

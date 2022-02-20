@@ -20,8 +20,9 @@ CREATE TABLE messages (
     content TEXT,
     user_id INTEGER REFERENCES users,
     area_id INTEGER REFERENCES areas,
-    sent_at TIMESTAMP
-    visible BOOLEAN
+    sent_at TIMESTAMP,
+    visible BOOLEAN,
+    image_id INTEGER REFERENCES images
 );
 
 CREATE TABLE reported_areas (
@@ -51,6 +52,13 @@ CREATE TABLE observation_info (
 	time TIME WITHOUT TIME ZONE,
 	message_id INTEGER REFERENCES messages,
 	location TEXT
+);
+
+CREATE TABLE images (
+	id SERIAL PRIMARY KEY,
+	name TEXT,
+	data BYTEA,
+	message_id INTEGER REFERENCES messages
 );
 	
 	

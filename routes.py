@@ -1,6 +1,7 @@
 from app import app
-from flask import render_template, request, redirect
-import users, areas, messages
+from flask import render_template, request, redirect, make_response
+import users, areas, messages, images
+from db import db
 
 @app.route("/")
 def index():
@@ -54,7 +55,10 @@ def get_list_message(content,time):
     area_creation_time = time
     list = messages.get_list_message(area_content, area_creation_time)
     list_ob_info = messages.get_list_ob_info()
-    return render_template("messages.html", count=len(list), messages=list, ob_infos = list_ob_info, area_content=area_content, time=time, user_name=user_name)
+    list_images = images.get_list_image()
+    print(f"näkykkö {list_images}")
+    print(f"messages:lista {list}")
+    return render_template("messages.html", count=len(list)+len(list_images), messages=list, ob_infos = list_ob_info, images=list_images, area_content=area_content, time=time, user_name=user_name)
 
 @app.route("/admin")
 def admin():
@@ -113,16 +117,10 @@ def send_message(area_content,time):
     if len(location) <= 0:
         return render_template("error.html", message="Lisää vielä sijainti, kiitos!")
     
-    elif messages.send_message(message_content, area_content,time, observation_date=observation_date,observation_time=observation_time,location=location):
+    if messages.send_message(message_content, area_content,time, observation_date=observation_date,observation_time=observation_time,location=location) != False:
         return redirect("/messages/" + str(area_content) + "/" + str(time))
     else:
         return render_template("error.html", message="Viestin lähetys ei onnistunut")
-
-    
-
-
-
-
 
 
 @app.route("/login", methods=["GET", "POST"])
@@ -231,3 +229,47 @@ def result():
     if len(search_results) == 0:
         return render_template("error.html", message=f"Hakusanalla '{query}' ei tuloksia.")
     return render_template("result.html", search_results=search_results)
+
+@app.route("/new_image/<string:area_content>/<string:time>")
+def new_image(area_content,time):
+    user_name = users.get_user_name()
+    return render_template("new_image.html", area_content=area_content,time=time,user_name=user_name)
+
+
+@app.route("/send_image/<string:area_content>/<string:time>", methods=["POST"])
+def send_image(area_content,time):
+    check_csrf = users.check_csrf()
+    file = request.files["file"]
+    name = file.filename
+    if not name.endswith(".jpg"):
+        return "Kuvan loppuosa tulee olla .jpg"
+    data = file.read()
+    if len(data) > 300*1024:
+        return "Kuva on liian iso. Maksimikoko on 100 kilotavua"
+    observation_date = request.form["date"]
+    observation_time = request.form["time"]
+    location = request.form["name"]
+    title = request.form["title"]
+    if len(title) <= 0:
+        return render_template("error.html", message="Alueen nimi ei voi olla tyhjä")
+    if len(title) > 100:
+        return render_template("error.html", error="Alueen nimi on liian pitkä")
+    image_id = images.send_image(name,data)
+    message_id = messages.send_message(title,area_content,time,observation_date,observation_time,location)
+    messages.add_image_id(image_id,message_id)
+    images.add_message_id(message_id,image_id)
+    return redirect("/messages/" + str(area_content) + "/" + str(time))
+
+
+@app.route("/show/<int:id>")
+def show_image(id):
+    sql = "SELECT data FROM images WHERE id=:id"
+    result = db.session.execute(sql, {"id":id})
+    data = result.fetchone()[0]
+    response = make_response(bytes(data))
+    response.headers.set("Content-Type", "image/jpeg")
+    return response
+    """
+    response = images.show_image(id)
+    return response
+    """

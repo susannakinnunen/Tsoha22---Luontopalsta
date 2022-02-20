@@ -5,11 +5,18 @@
 <p>
 <a href="/">Etusivulle</a> | <a href="/logout">Kirjaudu ulos</a>
 {% else %}
-{{ area_content }} | <a href="/new_message/{{ area_content }}/{{ time }}">Lisää viesti</a> | <a href="/">Etusivulle</a> | <a href="/logout">Kirjaudu ulos</a> | <a href="/report_area/{{ area_content }}/{{ time }}">Kerro epäasiallisesta alueesta</a> | Olet kirjautunut sisään käyttäjätunnuksella {{ user_name }}
+{{ area_content }} | <a href="/new_message/{{ area_content }}/{{ time }}">Lisää viesti</a> | <a href="/new_image/{{ area_content }}/{{ time }}">Lisää kuva</a> | <a href="/">Etusivulle</a> | <a href="/logout">Kirjaudu ulos</a> | <a href="/report_area/{{ area_content }}/{{ time }}">Kerro epäasiallisesta alueesta</a> | Olet kirjautunut sisään käyttäjätunnuksella {{ user_name }}
 <hr>
 {% for message in messages %}
 <i><b>Viesti:</b></i> {{ message[0] }}
 <p>
+    {% for image in images %}
+        {% if image[0] == message[4] and image[1] == message[3]  %}
+        <p>
+        <a href="/show/{{ image[0] }}">Katso kuva {{ message[0] }}</a>
+        {% endif %}
+    {% endfor %}
+ <p>
 {% for ob_info in ob_infos %}
     {% if ob_info[2] == message[3] %}
         <i><b>Sijanti</b></i> {{ ob_info[3] }} 

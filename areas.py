@@ -1,5 +1,5 @@
 from db import db
-import users
+import users,messages
 
 def get_list_area():
     sql = "SELECT A.content, U.username, A.sent_at FROM areas A, users U WHERE A.user_id=U.id AND A.visible=True ORDER BY A.id"
@@ -22,6 +22,7 @@ def get_area_id(area_content,time):
     area_id = list_area_id[0]
     return area_id
 
+
 def get_area_creator_id(area_content,time):
     sql= "SELECT user_id FROM areas WHERE content=:area_content AND sent_at=:time"
     result = db.session.execute(sql, {"area_content":area_content,"time":time})
@@ -30,15 +31,16 @@ def get_area_creator_id(area_content,time):
     return area_creator_id
 
 def get_area_sent_at(area_content,message_id):
-    sql = "SELECT A.sent_at FROM areas A, messages M WHERE A.content=:area_content AND M.id=:message_id"
-    result = db.session.execute(sql, {"area_content":area_content,"message_id":message_id})
+    area_id = messages.get_area_id_with_message_id(message_id)
+    sql = "SELECT sent_at FROM areas WHERE content=:area_content AND id=:area_id"
+    result = db.session.execute(sql, {"area_content":area_content,"area_id":area_id})
     list_result = result.fetchone()
     area_sent_at = list_result[0]
     return area_sent_at
 
 
 def get_area_content(message_id):
-    area_id_sql = "SELECT area_id FROM messages WHERE id=:message_id"
+    area_id_sql = "SELECT area_id FROM messages WHERE id=:message_id AND visible=True"
     area_id_result = db.session.execute(area_id_sql, {"message_id":message_id})
     list_area_id = area_id_result.fetchone()
     area_id = list_area_id[0]
