@@ -1,5 +1,4 @@
 from db import db
-from flask import make_response
 
 def send_image(name,data):    
     image_sql = "INSERT INTO images (name,data) VALUES (:name,:data) RETURNING id"
@@ -18,12 +17,3 @@ def get_list_image():
     sql = "SELECT id,message_id FROM images"
     result = db.session.execute(sql)
     return result.fetchall()
-"""
-def show_image(id):
-    sql = "SELECT data FROM images WHERE id=:id"
-    result = db.session.execute(sql, {"id":id})
-    data = result.fetchone()[0]
-    response = make_response(bytes(data))
-    response.headers.set("Content-Type", "image/jpeg")
-    return response
-"""

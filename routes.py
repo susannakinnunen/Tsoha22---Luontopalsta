@@ -56,8 +56,6 @@ def get_list_message(content,time):
     list = messages.get_list_message(area_content, area_creation_time)
     list_ob_info = messages.get_list_ob_info()
     list_images = images.get_list_image()
-    print(f"näkykkö {list_images}")
-    print(f"messages:lista {list}")
     return render_template("messages.html", count=len(list)+len(list_images), messages=list, ob_infos = list_ob_info, images=list_images, area_content=area_content, time=time, user_name=user_name)
 
 @app.route("/admin")
@@ -169,7 +167,6 @@ def send_report_area(area_content,time):
     if len(report_message_content) > 5000:
         return render_template("error.html", error="Perustelut-osio on liian pitkä")
     areas.send_report_area(area_content,report_message_content,time)
-    print(f"printtaa{time}")
     return redirect("/messages/" + str(area_content) + "/" + str(time))
 
 @app.route("/hide_area/<string:content>/<string:time>")
@@ -187,7 +184,6 @@ def get_list_reported_messages():
 
 @app.route("/hide_message/<string:content>/<string:area_id>/<string:message_sent_at>")
 def hide_message(content,area_id,message_sent_at):
-    print(f"area_id: {area_id}")
     messages.hide_message(content,area_id,message_sent_at)
     return redirect("/reported_messages")
 
@@ -245,7 +241,7 @@ def send_image(area_content,time):
         return "Kuvan loppuosa tulee olla .jpg"
     data = file.read()
     if len(data) > 300*1024:
-        return "Kuva on liian iso. Maksimikoko on 100 kilotavua"
+        return "Kuva on liian iso. Maksimikoko on 307 kilotavua"
     observation_date = request.form["date"]
     observation_time = request.form["time"]
     location = request.form["name"]
@@ -269,7 +265,4 @@ def show_image(id):
     response = make_response(bytes(data))
     response.headers.set("Content-Type", "image/jpeg")
     return response
-    """
-    response = images.show_image(id)
-    return response
-    """
+
