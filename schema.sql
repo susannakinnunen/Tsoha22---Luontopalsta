@@ -49,7 +49,7 @@ CREATE TABLE reported_messages (
 CREATE TABLE observation_info (
 	id SERIAL PRIMARY KEY,
 	day DATE,
-	time TIME WITHOUT TIME ZONE,
+	time TIME,
 	message_id INTEGER REFERENCES messages,
 	location TEXT
 );
