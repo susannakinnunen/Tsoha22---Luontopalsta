@@ -11,7 +11,7 @@ CREATE TABLE areas (
     id SERIAL PRIMARY KEY,
     content TEXT,
     user_id INTEGER REFERENCES users,
-    sent_at TIMESTAMP
+    sent_at TIMESTAMP,
     visible BOOLEAN
 );
 
@@ -42,7 +42,7 @@ CREATE TABLE reported_messages (
 	 sent_at TIMESTAMP,
 	 message_creator_id INTEGER REFERENCES users,
 	 reporter INTEGER REFERENCES users,
-	 report_message_content TEXT
+	 report_message_content TEXT,
 	 org_message_sent_at TIMESTAMP REFERENCES messages
 );
 
