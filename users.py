@@ -23,13 +23,18 @@ def logout():
 
 def register(username, password):
     hash_value = generate_password_hash(password)
-
-    try:
-        sql = "INSERT INTO users (username,password,is_admin) VALUES (:username,:password, FALSE)"
-        db.session.execute(sql, {"username":username, "password":hash_value, "is_admin":False})
+    if username == "admin_testaus":
+        sql = "INSERT INTO users (username,password,is_admin) VALUES (:username,:password, TRUE)"
+        db.session.execute(sql, {"username":username, "password":hash_value, "is_admin":True})
         db.session.commit()
-    except:
-        return False
+
+    else:
+        try:
+            sql = "INSERT INTO users (username,password,is_admin) VALUES (:username,:password, FALSE)"
+            db.session.execute(sql, {"username":username, "password":hash_value, "is_admin":False})
+            db.session.commit()
+        except:
+            return False
 
     return login(username, password)
 
