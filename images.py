@@ -14,6 +14,6 @@ def add_message_id(message_id,image_id):
     return True
 
 def get_list_image():
-    sql = "SELECT id,message_id FROM images"
+    sql = "SELECT message_id,id FROM images"
     result = db.session.execute(sql)
     return result.fetchall()

@@ -21,8 +21,7 @@ CREATE TABLE messages (
     user_id INTEGER REFERENCES users,
     area_id INTEGER REFERENCES areas,
     sent_at TIMESTAMP,
-    visible BOOLEAN,
-    image_id INTEGER REFERENCES images
+    visible BOOLEAN
 );
 
 CREATE TABLE reported_areas (
@@ -31,8 +30,8 @@ CREATE TABLE reported_areas (
     sent_at TIMESTAMP,
     area_creator_id INTEGER REFERENCES users,
     reporter INTEGER REFERENCES users,
-    report_message_content TEXT
-    area_created_at TIMESTAMP REFERENCES areas
+    report_message_content TEXT,
+    area_created_at TIMESTAMP
 );
 
 CREATE TABLE reported_messages (
@@ -43,7 +42,7 @@ CREATE TABLE reported_messages (
 	 message_creator_id INTEGER REFERENCES users,
 	 reporter INTEGER REFERENCES users,
 	 report_message_content TEXT,
-	 org_message_sent_at TIMESTAMP REFERENCES messages
+	 org_message_sent_at TIMESTAMP
 );
 
 CREATE TABLE observation_info (

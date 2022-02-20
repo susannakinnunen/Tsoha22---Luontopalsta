@@ -252,7 +252,6 @@ def send_image(area_content,time):
         return render_template("error.html", error="Alueen nimi on liian pitkä")
     image_id = images.send_image(name,data)
     message_id = messages.send_message(title,area_content,time,observation_date,observation_time,location)
-    messages.add_image_id(image_id,message_id)
     images.add_message_id(message_id,image_id)
     return redirect("/messages/" + str(area_content) + "/" + str(time))
 

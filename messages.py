@@ -3,7 +3,7 @@ import users,areas
 
 def get_list_message(area_content,time):
     area_id = areas.get_area_id(area_content,time)
-    sql = "SELECT M.content, U.username, M.sent_at, M.id, M.image_id FROM messages M, users U, areas A WHERE M.user_id=U.id AND M.area_id = A.id AND A.id=:area_id AND M.area_id=:area_id AND M.visible=True AND A.sent_at=:area_creation_time ORDER BY M.id"
+    sql = "SELECT M.content, U.username, M.sent_at, M.id FROM messages M, users U, areas A WHERE M.user_id=U.id AND M.area_id = A.id AND A.id=:area_id AND M.area_id=:area_id AND M.visible=True AND A.sent_at=:area_creation_time ORDER BY M.id"
     result = db.session.execute(sql, {"area_id":area_id, "area_creation_time":time})
     return result.fetchall()
 
@@ -84,12 +84,6 @@ def search(query):
     result = db.session.execute(sql, {"query":"%"+query+"%"})
     messages = result.fetchall()
     return messages
-
-def add_image_id(image_id,message_id):
-    sql = "UPDATE messages SET image_id=:image_id WHERE id=:message_id"
-    db.session.execute(sql, {"image_id":image_id,"message_id":message_id})
-    db.session.commit()
-    return True   
 
 def get_area_id_with_message_id(message_id):
     sql= "SELECT area_id FROM messages WHERE id=:message_id"
