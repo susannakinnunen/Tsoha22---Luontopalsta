@@ -1,16 +1,30 @@
 # Tsoha22---Luontopalsta
-Luontopalsta on keskustelusovellus,jossa käyttäjät voivat kertoa luontohavainnoistaan ja -kokemuksistaan. Voit kokeilla sovellusta Herokussa: https://tsoha-luontopalsta.herokuapp.com/
+Luontopalsta on keskustelusovellus,jossa käyttäjät voivat kertoa luontohavainnoistaan ja -kokemuksistaan.
 
-Tällä hetkellä (6.2.) sovelluksessa on keskustelualueita ja niitä klikkaamalla pääsee näkemään ja lisäämään viestejä,jos on kirjautunut. Sovellus mahdollistaa käyttäjätunnuksen luomisen ja kirjautumisen olemassa olevalla käyttäjätunnuksella.
+Tällä hetkellä (20.2.) sovelluksessa on mahdollista kokeilla seuraavia toimintoja.
 
-Sovellus on keskeneräinen, en ole muun muassa edennyt vielä sovelluksen ulkoasun muotoiluun.
-Alkuperäisessä suunnitelmassa aioin tehdä keskustelualueita (joita vain ylläpitäjä voisi luoda). Peruskäyttäjät voisivat luoda alueisiin ketjuja ja lisätä niihin viestejä. Koin kuitenkin sovellukseen sopivammaksi sen, että kuka tahansa voi luoda uuden alueen. Jätin myös ketjut pois. 
+- Käyttäjä voi kirjautua sisään ja ulos sekä luoda uuden tunnuksen.
 
-Ylläpitäjillä ei ole vielä mitään erikoisoikeuksia.
+- Käyttäjä näkee sovelluksen etusivulla listan keskustelualueista, sekä niiden laatijat ja luomisajat.
 
-Seuraavien viikkojen tavoitteet ovat:
-- Käyttäjä voi laittaa kuvan, videon tai äänitteen viestissä
-- Käyttäjä voi muokata lähettämänsä viestin sisältöä. Käyttäjä voi myös poistaa oman viestin.
+- Käyttäjä voi luoda uuden keskustelualueen.
+
+- Käyttäjä voi kirjoittaa uuden viestin tai lisätä uuden kuvan alueelle.
+
+- Käyttäjälle pakollisia merkintöjä viestin yhteydessä ovat havainnon päivämäärä ja maantieteellinen alue.
+
+- Käyttäjä voi muokata lähettämänsä viestin sisältöä tai poistaa sen. 
+
 - Käyttäjä voi etsiä kaikki viestit, joiden osana on annettu sana.
-- Ylläpitäjä voi lisätä ja poistaa keskustelualueita ja viestejä.
-- Käyttäjälle pakollisia merkintöjä julkaisun yhteydessä ovat julkaisun (tyhjää julkaisua ei voisi laittaa) lisäksi havainnon päivämäärä ja paikkakunta/alue.
+
+- Käyttäjä voi ilmoittaa epäasiallisista alueista ja viesteistä ylläpidolle.
+
+- Vain ylläpitäjä näkee ilmoitetut alueet ja viestit. Käyttäjä voi piilottaa ilmoitetut alueet ja viestit. Ylläpitäjä voi myös poistaa pelkästään annetun ilmoituksen, jos hän ei koe alueita tai viestejä epäasiallisiksi (alue/keskustelu säilyvät).
+ 
+Ylläpitäjän oikeuksia pääsee testaamaan tunnuksilla:
+Käyttäjätunnus: admin_testaus
+Salasana: K1lp1konna367
+
+Sovellus on vielä kesken, esimerkiksi eheää ulkoasua sille ei ole vielä rakennettu.
+
+Voit kokeilla sovellusta Herokussa: https://tsoha-luontopalsta.herokuapp.com/
