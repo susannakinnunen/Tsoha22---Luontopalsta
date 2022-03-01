@@ -2,14 +2,18 @@
 <form action="/send_message/{{ area_content }}/{{ time }}" method="post">
     {{ area_content }}
     Viesti: <br>
-    <textarea name="content" rows="3" cols="40"></textarea>
+    <textarea name="content" rows="3" cols="40"></textarea>  {{ error1 }} {{ error2 }}
     <p>
-    Sijainti: <input type="text" name="name" placeholder="Maantieteellinen sijainti (esim. paikkakunta,maa,koordinaatit)" size="70" required>  Päivämäärä: <input type="date" name="date"> <br>
-    Kellonaika: <input type="time" name="time">
+    Sijainti: <input type="text" name="name" placeholder="Maantieteellinen sijainti (esim. paikkakunta,maa,koordinaatit)" size="70"> {{ error5 }}  
+    <p> 
+    Päivämäärä: <input type="date" name="date"> {{ error3 }} 
+    <p>
+    Kellonaika: <input type="time" name="time"> {{ error4 }} 
     <p>
     <input type="submit" value="Lähetä">
     <hr>
     Olet kirjautunut sisään käyttäjätunnuksella {{ user_name }}
     <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
     </form>
+    {{ error6 }} 
 

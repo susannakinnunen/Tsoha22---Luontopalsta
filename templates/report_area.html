@@ -2,7 +2,7 @@
 <form action="/send_report_area/{{ area_content }}/{{ time }}" method="post">
     Raportoi alue: {{ area_content }}
     <p>
-    Perustelut: <br>
+    Perustelut: <br> {{ error1 }}
     <textarea name="content" rows="3" cols="40"></textarea>
     <br>
     <input type="submit" value="Lähetä"> <br>

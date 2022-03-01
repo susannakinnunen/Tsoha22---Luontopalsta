@@ -1,11 +1,15 @@
 <!DOCTYPE html>
 <form action="/send_image/{{ area_content }}/{{ time }}" method="POST" enctype="multipart/form-data">
     {{ area_content }}
-    Anna kuvalle kuvaava otsikko: <input type="text" name="title">
-    Kuva (Koko max. 307KB, anna kuva .jpg formaatissa): <input type="file" name="file">
+    Anna kuvalle kuvaava otsikko: <input type="text" name="title"> {{ error1 }} {{ error2 }}
     <p>
-    Sijainti: <input type="text" name="name" placeholder="Maantieteellinen sijainti (esim. paikkakunta,maa,koordinaatit)" size="70" required>  Päivämäärä: <input type="date" name="date"> <br>
-    Kellonaika: <input type="time" name="time">
+    Kuva (Koko max. 307KB, anna kuva .jpg formaatissa): <input type="file" name="file"> {{ error6 }} {{ error7 }}
+    <p>
+    Sijainti: <input type="text" name="name" placeholder="Maantieteellinen sijainti (esim. paikkakunta,maa,koordinaatit)" size="70" required> {{ error5 }}
+    <p>
+    Päivämäärä: <input type="date" name="date" required> {{ error3 }}
+    <p>
+    Kellonaika: <input type="time" name="time" required> {{ error4 }}
     <p>
     <input type="submit" value="Lähetä">
     <hr>
