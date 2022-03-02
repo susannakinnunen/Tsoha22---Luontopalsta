@@ -83,7 +83,15 @@ def admin():
 def get_list_reported_areas():
     user_name = users.get_user_name()
     list = areas.get_list_reported_areas()
-    return render_template("reported_areas.html", count=len(list), areas=list,user_name=user_name)
+    if user_name == False:
+        return redirect("/")
+    if users.is_admin():
+        is_admin = True
+        return render_template("reported_areas.html", count=len(list), areas=list,user_name=user_name)
+    else: 
+        is_admin = False
+        return redirect("/")
+
 
 @app.route("/new_area")
 def new_area():
@@ -192,7 +200,6 @@ def send_report_area(area_content,time):
 
 @app.route("/hide_area/<string:content>/<string:time>")
 def hide_area(content,time):
-    check_csrf = users.check_csrf()
     areas.hide_area(content,time)
     return redirect("/reported_areas")
 
@@ -201,12 +208,18 @@ def hide_area(content,time):
 def get_list_reported_messages():
     user_name = users.get_user_name()
     list = messages.get_list_reported_messages()
-    return render_template("reported_messages.html", count=len(list), messages=list, user_name=user_name)
+    if user_name == False:
+        return redirect("/")
+    if users.is_admin():
+        is_admin = True
+        return render_template("reported_messages.html", count=len(list), messages=list, user_name=user_name)
+    else: 
+        is_admin = False
+        return redirect("/")
 
 
 @app.route("/hide_message/<string:content>/<string:area_id>/<string:message_sent_at>")
 def hide_message(content,area_id,message_sent_at):
-    check_csrf = users.check_csrf()
     messages.hide_message(content,area_id,message_sent_at)
     return redirect("/reported_messages")
 
@@ -245,11 +258,12 @@ def query():
 
 @app.route("/result")
 def result():
+    user_name = users.get_user_name()
     query = request.args["query"]
     search_results = messages.search(query)
     if len(search_results) == 0:
         return render_template("query.html", error=f"Hakusanalla '{query}' ei tuloksia.")
-    return render_template("result.html", search_results=search_results)
+    return render_template("result.html", search_results=search_results, user_name=user_name)
 
 @app.route("/new_image/<string:area_content>/<string:time>")
 def new_image(area_content,time):

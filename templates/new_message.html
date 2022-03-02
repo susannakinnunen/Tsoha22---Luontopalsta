@@ -1,4 +1,10 @@
 <!DOCTYPE html>
+{% extends "layout.html" %}
+{% block content %}
+<p>
+<div class="second_header">
+    Olet kirjautunut sisään käyttäjätunnuksella {{ user_name }}
+</div>
 <form action="/send_message/{{ area_content }}/{{ time }}" method="post">
     {{ area_content }}
     Viesti: <br>
@@ -11,9 +17,8 @@
     Kellonaika: <input type="time" name="time"> {{ error4 }} 
     <p>
     <input type="submit" value="Lähetä">
-    <hr>
-    Olet kirjautunut sisään käyttäjätunnuksella {{ user_name }}
     <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
     </form>
-    {{ error6 }} 
+    {{ error6 }}
+{% endblock %} 
 

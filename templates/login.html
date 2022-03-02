@@ -1,5 +1,10 @@
+{% extends "layout.html" %}
+{% block content %}
+Kirjaudu
 <form action="/login" method="post">
+<div class="error">
 {{ error1 }}
+</div>
 Tunnus: <input type="text" name="username">
 <p>
 Salasana: <input type="password" name="password">
@@ -7,3 +12,4 @@ Salasana: <input type="password" name="password">
 <input type="submit" value="Kirjaudu">
 </form>
 Jos sinulla ei ole tunnusta, voit luoda uuden tunnuksen <a href="/register">tästä</a>
+{% endblock %} 

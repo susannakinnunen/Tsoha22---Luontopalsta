@@ -1,4 +1,8 @@
+{% extends "layout.html" %}
+{% block content %}
+Rekisteröidy
 <form action="/register" method="post">
+    <div class="error">
     {{ error1 }}
     <p>
     {{ error2 }}
@@ -7,6 +11,7 @@
     <p>
     {{ error4 }}
     <p>
+    </div>
     Tunnus: <input type="text" name="username">
     <p>
     Salasana: <input type="password" name="password1">
@@ -15,3 +20,4 @@
     <p>
     <input type="submit" value="Luo tunnus">
     </form>
+{% endblock %} 

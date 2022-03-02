@@ -1,11 +1,28 @@
-TULOKSET:
+{% extends "layout.html" %}
+{% block content %}
+<p>
+    <div class="second_header">
+    Olet kirjautunut sisään käyttäjätunnuksella {{ user_name }}
+    </div>
 <hr>
-<ul>
-{% for result in search_results %}
+<div class="content_container">
+    <div class="nav">
+        <ul>
+        <li><a href="/">Etusivulle</a></li>
+        <li><a href="/logout">Kirjaudu ulos</a></li> 
+        <li><a href="/query">Etsi viesti hakusanalla</a></li>
+        {% if is_admin %} <li><a href="/admin">Ylläpito</a><li> {% endif %} 
+    </div>
+    <div class="forum">
+        TULOKSET:
+        <hr>
+        {% for result in search_results %}
+        <ul>
+            Alue: {{ result[1] }}
+            <li> Viesti: {{ result[0] }}</li>
 <hr>
-Alue: {{ result[1] }}
-<li> Viesti: {{ result[0] }}
-{% endfor %}
-</ul>
-<hr>
-<a href="/">Etusivulle</a>
+        </ul>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

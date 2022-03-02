@@ -1,4 +1,10 @@
 <!DOCTYPE html>
+{% extends "layout.html" %}
+{% block content %}
+<p>
+    <div class="second_header">
+    Olet kirjautunut sisään käyttäjätunnuksella {{ user_name }}
+    </div>
 <form action="/send_report_message/{{ message_id }}/{{ area_content }}/{{ message_sent_time }}" method="POST">
     Raportoi viesti:
     <p>
@@ -16,3 +22,5 @@
     <input type="hidden" name="area_creator_user" value="{{ area_creator_user }}">
     <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
     </form>
+
+{% endblock %} 

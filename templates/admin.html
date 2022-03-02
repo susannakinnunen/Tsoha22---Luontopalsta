@@ -1,4 +1,11 @@
 <!DOCTYPE html>
+{% extends "layout.html" %}
+{% block content %}
+<p>
+    <div class="second_header">
+    Olet kirjautunut sisään käyttäjätunnuksella {{ user_name }}
+    </div>
 <a href="/reported_areas">Raportoidut alueet</a> | <a href="/reported_messages">Raportoidut viestit</a>
 <hr>
-<a href="/">Etusivulle</a> | <a href="/logout">Kirjaudu ulos</a> | Olet kirjautunut sisään käyttäjätunnuksella {{ user_name }}
+<a href="/">Etusivulle</a> | <a href="/logout">Kirjaudu ulos</a>
+{% endblock %}

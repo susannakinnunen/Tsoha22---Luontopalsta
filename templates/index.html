@@ -1,34 +1,57 @@
 <!DOCTYPE html>
+{% extends "layout.html" %}
+{% block content %}
 {% if session.user_id %}
-Luontopalsta - Tervetuloa jakamaan luontohavaintoja ja -kokemuksia! | Olet kirjautunut sisään käyttäjätunnuksella {{ user_name }}
-<p>
-Keskustelualueet:
-<hr>
-{% for area in areas %}
-<a href="/messages/{{ area[0] }}/{{ area[2] }}">{{ area[0] }}</a>
-<p>
-<i>Lähettäjä:</i> {{ area[1] }}
-<p>
-<i>Lisätty:</i> {{ area[2].strftime("%Y-%m-%d %H:%M:%S") }}
-<hr>
-{% endfor %}
-<a href="/new_area">Lisää alue</a> | <a href="/logout">Kirjaudu ulos</a> | <a href="/query">Etsi viesti hakusanalla</a> | {% if is_admin %} <a href="/admin">Ylläpito</a> {% endif %} 
-{% else %}
-Luontopalsta - Tervetuloa jakamaan luontohavaintoja ja -kokemuksia!
-<p>
-Kirjautumalla sisään voit luoda uuden keskustelualueen, näet myös kaikkien alueiden viestiketjut ja voit lisätä niihin oman viestisi.
-<p>
-<a href="/login">Kirjaudu sisään</a> | Ei vielä tunnusta? <a href="/register">Luo tunnus täällä!</a>
-<p>
-Keskustelualueet:
-<hr>
-{% for area in areas %}
-{{ area[0] }}
-<i>Lisätty:</i> {{ area[2].strftime("%Y-%m-%d %H:%M:%S") }}
-<hr>
-{% endfor %}
-{% endif %}
-
+<body>
+    <p>
+        <div class="second_header">
+        Olet kirjautunut sisään käyttäjätunnuksella {{ user_name }}
+        </div>
+    <hr>
+    <div class="content_container">
+        <div class="nav">
+            <ul>
+            <li><a href="/new_area">Lisää alue</a></li>
+            <li><a href="/logout">Kirjaudu ulos</a></li> 
+            <li><a href="/query">Etsi viesti hakusanalla</a></li>
+            {% if is_admin %} <li><a href="/admin">Ylläpito</a><li> {% endif %} 
+            </ul>
+        </div>
+        <div class="forum">
+        Keskustelualueet:
+        <hr>
+        {% for area in areas %}
+        <a href="/messages/{{ area[0] }}/{{ area[2] }}">{{ area[0] }}</a>
+        <p>
+        <i>Lähettäjä:</i> {{ area[1] }}
+        <p>
+        <i>Lisätty:</i> {{ area[2].strftime("%Y-%m-%d %H:%M:%S") }}
+        <hr>
+    {% endfor %}
+        </div>
+    </div>
+    {% else %}
+        <p>
+        <div class="second_header">Kirjautumalla sisään voit luoda uuden keskustelualueen, näet myös kaikkien alueiden viestiketjut ja voit lisätä niihin oman viestisi.</div>
+        <p>
+        <div class="content_container">
+            <div class="nav">
+            <a href="/login">Kirjaudu sisään</a> | Ei vielä tunnusta? <a href="/register">Luo tunnus täällä!</a>
+            </div>
+            <p>
+            <div class="forum">
+            Keskustelualueet:
+            <hr>
+            {% for area in areas %}
+            {{ area[0] }}
+            <i>Lisätty:</i> {{ area[2].strftime("%Y-%m-%d %H:%M:%S") }}
+            <hr>
+        {% endfor %} 
+            </div>
+    </div>
+</body>
+{% endif %} 
+{% endblock %} 
 
 
 

@@ -1,0 +1,52 @@
+body{
+    background-color: grey;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.container{
+    width: 1600px;
+    background-color: aqua;
+    margin-left: auto;
+    margin-right: auto;
+
+}
+
+.header {
+    color: #555;
+    background-color: #33FF62;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    text-align: center;
+    
+}
+
+.second_header{
+    text-align: center;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    color: #555;
+}
+
+.content_container{
+    padding: 10px;
+}
+
+.nav{
+    width: 600px;
+    float: right;
+    padding: 10px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    background-color: #33FF62;
+    text-align: center;
+
+}
+
+.forum{
+    width: 800px;
+    padding: 10px;
+    background-color: #33FF62;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    text-align: center;
+}
+
+.error{
+    color:red;
+}

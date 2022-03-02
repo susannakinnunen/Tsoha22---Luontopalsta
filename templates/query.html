@@ -1,3 +1,9 @@
+{% extends "layout.html" %}
+{% block content %}
+<p>
+    <div class="second_header">
+    Olet kirjautunut sisään käyttäjätunnuksella {{ user_name }}
+    </div>
 <form action="/result" method="GET">
     {{ error }}
     <p>
@@ -8,3 +14,5 @@
     </form>
     <hr>
     <a href="/">Etusivulle</a>
+
+{% endblock %} 

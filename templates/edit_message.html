@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <form action="/send_message_edit" method="post">
     Muokkaa vanhaa viestiä: <br>
-    <textarea name="content" rows="3" cols="40">{{ message_content }}</textarea> {{ error1 }} {{ error2 }}
+    <textarea name="content" rows="3" cols="40">{{ message_content }}</textarea> <div class="error">{{ error1 }} {{ error2 }}</div>
     <br>
     <hr>
     <input type="submit" value="Lähetä"> <br>

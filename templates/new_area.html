@@ -1,9 +1,16 @@
 <!DOCTYPE html>
+{% extends "layout.html" %}
+{% block content %}
+<p>
+    <div class="second_header">
+    Olet kirjautunut sisään käyttäjätunnuksella {{ user_name }}
+    </div>
 <form action="/send_area" method="post">
     Alueen otsikko: <input type="text" name="title">
     <br>
     <input type="submit" value="Lähetä"> <br>
-    <hr>
-    Olet kirjautunut sisään käyttäjätunnuksella {{ user_name }}
     <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
     </form>
+
+{% endblock %} 
+    
