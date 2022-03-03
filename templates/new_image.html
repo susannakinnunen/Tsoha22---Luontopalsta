@@ -1,25 +1,32 @@
 <!DOCTYPE html>
 {% extends "layout.html" %}
 {% block content %}
-<p>
-    <div class="second_header">
-    Olet kirjautunut sisään käyttäjätunnuksella {{ user_name }}
+<div class="flexbox-content_container">
+    <div class="form">
+    <form action="/send_image/{{ area_content }}/{{ time }}" method="POST" enctype="multipart/form-data">
+        <p>{{ area_content }} - Lisää kuva</p>
+        <hr>
+        Kuvan nimi: <input type="text" name="title"> <div class="error">{{ error1 }} {{ error2 }}</div>
+        <p>
+        Kuva (Koko max. 307KB, anna kuva .jpg formaatissa): <input type="file" name="file"> <div class="error">{{ error6 }} {{ error7 }}</div>
+        <p>
+        Sijainti: <input type="text" name="name" placeholder="Maantieteellinen sijainti (esim. paikkakunta,maa,koordinaatit)" size="70" required> {{ error5 }}
+        <p>
+        Päivämäärä: <input type="date" name="date" required> <div class="error">{{ error3 }}</div>
+        <p>
+        Kellonaika: <input type="time" name="time" required> <div class="error">{{ error4 }}</div>
+        <p>
+        <input type="submit" value="Lähetä">
+        <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
+        </form>
     </div>
-<form action="/send_image/{{ area_content }}/{{ time }}" method="POST" enctype="multipart/form-data">
-    {{ area_content }}
-    Anna kuvalle kuvaava otsikko: <input type="text" name="title"> <div class="error">{{ error1 }} {{ error2 }}</div>
-    <p>
-    Kuva (Koko max. 307KB, anna kuva .jpg formaatissa): <input type="file" name="file"> <div class="error">{{ error6 }} {{ error7 }}</div>
-    <p>
-    Sijainti: <input type="text" name="name" placeholder="Maantieteellinen sijainti (esim. paikkakunta,maa,koordinaatit)" size="70" required> {{ error5 }}
-    <p>
-    Päivämäärä: <input type="date" name="date" required> <div class="error">{{ error3 }}</div>
-    <p>
-    Kellonaika: <input type="time" name="time" required> <div class="error">{{ error4 }}</div>
-    <p>
-    <input type="submit" value="Lähetä">
-    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
-    </form>
+    <div class="nav">
+        <ul>
+            <li><a href="/">Etusivulle</a></li>
+            <li><a href="/logout">Kirjaudu ulos</a></li>
+        </ul>
+    </div>
+</div>
 
 {% endblock %} 
     

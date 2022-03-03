@@ -1,11 +1,19 @@
 <!DOCTYPE html>
 {% extends "layout.html" %}
 {% block content %}
-<p>
-    <div class="second_header">
-    Olet kirjautunut sisään käyttäjätunnuksella {{ user_name }}
+<div class="flexbox-content_container">
+    <div class="form">
+        <ul>
+        <li><a href="/reported_areas">Raportoidut alueet</a> </li>
+        <li><a href="/reported_messages">Raportoidut viestit</a></li>
+        </ul>
     </div>
-<a href="/reported_areas">Raportoidut alueet</a> | <a href="/reported_messages">Raportoidut viestit</a>
-<hr>
-<a href="/">Etusivulle</a> | <a href="/logout">Kirjaudu ulos</a>
+    <div class="nav">
+        <ul>
+        <li><a href="/">Etusivulle</a></li>
+        <li><a href="/query">Etsi viesti hakusanalla</a></li>
+        <li><a href="/logout">Kirjaudu ulos</a></li>
+        </ul>
+    </div>
+</div>
 {% endblock %}

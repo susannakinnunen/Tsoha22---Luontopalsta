@@ -1,52 +1,47 @@
 <!DOCTYPE html>
 {% extends "layout.html" %}
 {% block content %}
-<p>
-    <div class="second_header">
-    Olet kirjautunut sisään käyttäjätunnuksella {{ user_name }}
-    </div>
-<hr>
 {% if count == 0 %}
-<div class="content_container">
+<div class="flexbox-content_container">
+    <div class="forum">
+        <h2>Ei ilmoituksia</h2>
+        </div>
     <div class="nav">
         <ul>
-        <li><a href="/">Etusivulle</a></li>
-        <li><a href="/logout">Kirjaudu ulos</a></li> 
-        <li><a href="/query">Etsi viesti hakusanalla</a></li>
+            <li><a href="/">Etusivulle</a></li>
+            <li><a href="/logout">Kirjaudu ulos</a></li> 
+            <li><a href="/query">Etsi viesti hakusanalla</a></li>
         {% if is_admin %} <li><a href="/admin">Ylläpito</a><li> {% endif %} 
         </ul>
-    </div>
-    <div class="forum">
-    Ei ilmoituksia
     </div>
 </div>
 {% else %}
-<div class="content_container">
+<div class="flexbox-content_container">
+    <div class="forum">
+        <h2>Raportoidut alueet:</h2>
+        <hr>
+        {% for area in areas %}
+        <a href="/messages/{{ area[0] }}/{{ area[5] }}">{{ area[0] }}</a>
+        <p>
+        <i>Alueen laatija:</i> {{ area[1] }}
+        <p>
+        <i>Ilmoituksen tehnyt:</i> {{ area[2] }}
+        <p>
+        <i>Perustelut ilmoitukselle:</i> {{ area[3] }}
+        <p>
+        <i>Ilmoitus annettu:</i> {{ area[4].strftime("%Y-%m-%d %H:%M:%S") }}
+        <p>
+        <a href="/hide_area/{{ area[0] }}/{{ area[5] }}">Piilota alue keskustelualueelta</a> | <a href="/remove_area_report/{{ area[7] }}">Poista ilmoitus (alue pysyy keskustelussa)</a>
+        <hr>
+        {% endfor %}
+        </div>
     <div class="nav">
         <ul>
-        <li><a href="/">Etusivulle</a></li>
-        <li><a href="/logout">Kirjaudu ulos</a></li> 
-        <li><a href="/query">Etsi viesti hakusanalla</a></li>
-        {% if is_admin %} <li><a href="/admin">Ylläpito</a><li> {% endif %} 
+            <li><a href="/">Etusivulle</a></li>
+            <li><a href="/logout">Kirjaudu ulos</a></li> 
+            <li><a href="/query">Etsi viesti hakusanalla</a></li>
+            {% if is_admin %} <li><a href="/admin">Ylläpito</a><li> {% endif %} 
         </ul>
-    </div>
-    <div class="forum">
-    Raportoidut alueet:
-    <hr>
-    {% for area in areas %}
-    <a href="/messages/{{ area[0] }}/{{ area[5] }}">{{ area[0] }}</a>
-    <p>
-    <i>Alueen laatija:</i> {{ area[1] }}
-    <p>
-    <i>Ilmoituksen tehnyt:</i> {{ area[2] }}
-    <p>
-    <i>Perustelut ilmoitukselle:</i> {{ area[3] }}
-    <p>
-    <i>Ilmoitus annettu:</i> {{ area[4].strftime("%Y-%m-%d %H:%M:%S") }}
-    <p>
-    <a href="/hide_area/{{ area[0] }}/{{ area[5] }}">Piilota alue keskustelualueelta</a> | <a href="/remove_area_report/{{ area[7] }}">Poista ilmoitus (alue pysyy keskustelussa)</a>
-    <hr>
-    {% endfor %}
     </div>
 </div>
 {% endif %}

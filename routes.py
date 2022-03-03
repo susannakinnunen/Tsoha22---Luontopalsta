@@ -65,7 +65,7 @@ def get_list_message(content,time):
     list = messages.get_list_message(area_content, area_creation_time)
     list_ob_info = messages.get_list_ob_info()
     list_images = images.get_list_image()
-    return render_template("messages.html", count=len(list)+len(list_images), messages=list, ob_infos = list_ob_info, images=list_images, area_content=area_content, time=time, user_name=user_name)
+    return render_template("messages.html", count=len(list), messages=list, ob_infos = list_ob_info, images=list_images, area_content=area_content, time=time, user_name=user_name)
 
 @app.route("/admin")
 def admin():
@@ -142,7 +142,6 @@ def send_message(area_content,time):
     else:
         return render_template("new_message.html", area_content=area_content, time=time, user_name=user_name, error6="Viestin lähetys ei onnistunut")
 
-
 @app.route("/login", methods=["GET", "POST"])
 def login():
     if request.method == "GET":
@@ -150,12 +149,13 @@ def login():
     if request.method == "POST":
         username = request.form["username"]
         password = request.form["password"]
-        if users.login(username, password):
+        if len(username) == 0 or len(password) == 0:
+            return render_template("login.html", error1="Väärä tunnus tai salasana")
+        elif users.login(username, password):
             return redirect("/")
         else:
             return render_template("login.html", error1="Väärä tunnus tai salasana")
     
-
 @app.route("/logout")
 def logout():
     users.logout()
@@ -212,15 +212,14 @@ def get_list_reported_messages():
         return redirect("/")
     if users.is_admin():
         is_admin = True
-        return render_template("reported_messages.html", count=len(list), messages=list, user_name=user_name)
-    else: 
-        is_admin = False
+        return render_template("reported_messages.html", count=len(list), messages=list, user_name=user_name, is_admin=is_admin)
+    else:
         return redirect("/")
 
 
-@app.route("/hide_message/<string:content>/<string:area_id>/<string:message_sent_at>")
-def hide_message(content,area_id,message_sent_at):
-    messages.hide_message(content,area_id,message_sent_at)
+@app.route("/hide_message/<string:content>/<string:area_id>/<string:message_sent_at>/<string:message_id>")
+def hide_message(content,area_id,message_sent_at,message_id):
+    messages.hide_message(content,area_id,message_sent_at,message_id)
     return redirect("/reported_messages")
 
 
@@ -242,28 +241,34 @@ def send_report_message(message_id,area_content,message_sent_at):
 
 @app.route("/remove_area_report/<string:area_report_id>")
 def remove_area_report(area_report_id):
-    check_csrf = users.check_csrf()
-    areas.remove_area_report(area_report_id)
-    return redirect("/reported_areas")
+    if users.is_admin():
+        is_admin = True
+        areas.remove_area_report(area_report_id)
+        return redirect("/reported_areas")
+    else:
+        redirect("/")
 
 @app.route("/remove_message_report/<string:message_report_id>")
 def remove_message_report(message_report_id):
-    check_csrf = users.check_csrf()
     messages.remove_message_report(message_report_id)
     return redirect("/reported_messages")
 
 @app.route("/query")
 def query():
-    return render_template("query.html")
+    if users.is_admin():
+        is_admin = True
+    return render_template("query.html", is_admin=is_admin)
 
 @app.route("/result")
 def result():
     user_name = users.get_user_name()
     query = request.args["query"]
     search_results = messages.search(query)
+    if users.is_admin():
+        is_admin = True
     if len(search_results) == 0:
-        return render_template("query.html", error=f"Hakusanalla '{query}' ei tuloksia.")
-    return render_template("result.html", search_results=search_results, user_name=user_name)
+        return render_template("query.html", is_admin=is_admin, error=f"Hakusanalla '{query}' ei tuloksia.")
+    return render_template("result.html", search_results=search_results, user_name=user_name,is_admin=is_admin)
 
 @app.route("/new_image/<string:area_content>/<string:time>")
 def new_image(area_content,time):

@@ -1,13 +1,11 @@
 <!DOCTYPE html>
 {% extends "layout.html" %}
 {% block content %}
-<p>
-    <div class="second_header">
-    Olet kirjautunut sisään käyttäjätunnuksella {{ user_name }}
-    </div>
-<hr>
 {% if count == 0 %}
-<div class="content_container">
+<div class="flexbox-content_container">
+    <div class="forum">
+        <h2>Ei ilmoituksia</h2>
+        </div>
     <div class="nav">
         <ul>
         <li><a href="/">Etusivulle</a></li>
@@ -15,13 +13,31 @@
         <li><a href="/query">Etsi viesti hakusanalla</a></li>
         {% if is_admin %} <li><a href="/admin">Ylläpito</a><li> {% endif %} 
         </ul>
-    </div>
-    <div class="forum">
-    Ei ilmoituksia
     </div>
 </div>
 {% else %}
-<div class="content_container">
+<div class="flexbox-content_container">
+    <div class="forum">
+        <h2>Raportoidut viestit</h2>
+        <hr>
+        {% for message in messages %}
+        Viesti:
+        {{ message[0] }}
+        <p>
+        <i>Viestin lähettäjä:</i> {{ message[2] }}
+        <p>
+        <i>Alueen nimi:</i> {{ message[6] }}
+        <p>
+        <i>Ilmoituksen tehnyt:</i> {{ message[3] }}
+        <p>
+        <i>Perustelut ilmoitukselle:</i> {{ message[4] }}
+        <p>
+        <i>Ilmoitus annettu:</i> {{ message[5].strftime("%Y-%m-%d %H:%M:%S") }}
+        <p>
+        <a href="/hide_message/{{ message[0] }}/{{ message[1] }}/{{ message[7] }}/{{ message[8] }}">Piilota viesti</a> | <a href="/remove_message_report/{{ message[8] }}">Poista ilmoitus (viesti pysyy keskustelussa).</a>
+        <hr>
+        {% endfor %}
+        </div>
     <div class="nav">
         <ul>
         <li><a href="/">Etusivulle</a></li>
@@ -29,27 +45,6 @@
         <li><a href="/query">Etsi viesti hakusanalla</a></li>
         {% if is_admin %} <li><a href="/admin">Ylläpito</a><li> {% endif %} 
         </ul>
-    </div>
-    <div class="forum">
-    Raportoidut viestit:
-    <hr>
-    {% for message in messages %}
-    Viesti:
-    {{ message[0] }}
-    <p>
-    <i>Viestin lähettäjä:</i> {{ message[2] }}
-    <p>
-    <i>Alueen nimi:</i> {{ message[6] }}
-    <p>
-    <i>Ilmoituksen tehnyt:</i> {{ message[3] }}
-    <p>
-    <i>Perustelut ilmoitukselle:</i> {{ message[4] }}
-    <p>
-    <i>Ilmoitus annettu:</i> {{ message[5].strftime("%Y-%m-%d %H:%M:%S") }}
-    <p>
-    <a href="/hide_message/{{ message[0] }}/{{ message[1] }}/{{ message[7] }}">Piilota viesti</a> | <a href="/remove_message_report/{{ message[8] }}">Poista ilmoitus (viesti pysyy keskustelussa).</a>
-    <hr>
-    {% endfor %}
     </div>
 </div>
 {% endif %}

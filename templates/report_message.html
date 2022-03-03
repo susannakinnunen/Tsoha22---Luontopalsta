@@ -1,26 +1,31 @@
 <!DOCTYPE html>
 {% extends "layout.html" %}
 {% block content %}
-<p>
-    <div class="second_header">
-    Olet kirjautunut sisään käyttäjätunnuksella {{ user_name }}
-    </div>
-<form action="/send_report_message/{{ message_id }}/{{ area_content }}/{{ message_sent_time }}" method="POST">
-    Raportoi viesti:
-    <p>
-    Alue: {{ area_content }}
-    <p>
-    Viesti:{{ message_content }}
-    <p>
-    Perustelut: <br>
-    <textarea name="content" rows="3" cols="40"></textarea> {{ error }}
-    <br>
-    <input type="submit" value="Lähetä"> <br>
-    <hr>
-    Olet kirjautunut sisään käyttäjätunnuksella {{ user_name }}
-    <input type="hidden" name="reporter" value= "{{ reporter }}">
-    <input type="hidden" name="area_creator_user" value="{{ area_creator_user }}">
-    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
-    </form>
 
+<div class="flexbox-content_container">
+    <div class="form">
+        <form action="/send_report_message/{{ message_id }}/{{ area_content }}/{{ message_sent_time }}" method="POST">
+            Raportoi viesti:
+            <p>
+            Alue: {{ area_content }}
+            <p>
+            Viesti:{{ message_content }}
+            <p>
+            Perustelut: <br>
+            <textarea name="content" rows="3" cols="40"></textarea> {{ error }}
+            <p>
+            <input type="submit" value="Lähetä">
+            <input type="hidden" name="reporter" value= "{{ reporter }}">
+            <input type="hidden" name="area_creator_user" value="{{ area_creator_user }}">
+            <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
+            </form>
+    </div>
+    <div class="nav">
+        <ul>
+            <li><a href="/">Etusivu</a></li>
+            {% if is_admin %} <li><a href="/admin">Ylläpito</a></li> {% endif %} 
+            <li><a href="/logout">Kirjaudu ulos</a></li>
+        </ul>
+    </div>
+</div>    
 {% endblock %} 

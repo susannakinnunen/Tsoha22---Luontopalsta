@@ -2,9 +2,10 @@
 {% extends "layout.html" %}
 {% block content %}
 {% if count == 0 %}
-<div class="second_header">Olet kirjautunut sisään käyttäjätunnuksella {{ user_name }}</div>
-<hr>
-<div class="content_container">
+<div class="flexbox-content_container">
+    <div class="forum">
+        <h2>{{ area_content }}</h2>
+    </div>
     <div class="nav">
         <ul>
             <li><a href="/new_message/{{ area_content }}/{{ time }}">Lisää viesti</a></li>
@@ -12,28 +13,14 @@
             <li><a href="/">Etusivulle</a></li>
             <li><a href="/logout">Kirjaudu ulos</a></li>
         </ul>
-    </div>
-    <div class="forum">
-        {{ area_content }}
     </div>
 </div>
 {% else %}
-<div class="second_header">Olet kirjautunut sisään käyttäjätunnuksella {{ user_name }}</div>
-<hr>
-<div class="content_container">
-    <div class="nav">
-        <ul>
-            <li><a href="/new_message/{{ area_content }}/{{ time }}">Lisää viesti</a></li>
-            <li><a href="/new_image/{{ area_content }}/{{ time }}">Lisää kuva</a></li>
-            <li><a href="/">Etusivulle</a></li>
-            <li><a href="/logout">Kirjaudu ulos</a></li>
-            <li><a href="/report_area/{{ area_content }}/{{ time }}">Kerro epäasiallisesta alueesta</a></li>
-        </ul>
-    </div>
+<div class="flexbox-content_container">
     <div class="forum">
-        {{ area_content }}
-    <hr>
+        <h2>{{ area_content }}</h2>
     {% for message in messages %}
+    <hr>
     <i><b>Viesti:</b></i> {{ message[0] }}
     <p>
         {% for image in images %}
@@ -54,8 +41,16 @@
     <i>Lähettäjä:</i> {{ message[1] }} | <i>Viesti lähetetty:</i> {{ message[2].strftime("%Y-%m-%d %H:%M:%S") }}
     <p>
     <a href="/report_message/{{ message[3] }}/{{ area_content }}/{{ message[2] }}">Kerro epäasiallisesta viestistä</a> {% if user_name == message[1]%}|| <a href="/edit_message/{{ message[3] }}">Muokkaa viestiä</a> | <a href="/delete_message/{{ message[3] }}">Poista viesti</a> {% endif %}
-    <hr>
     {% endfor %}
+    </div>
+    <div class="nav">
+        <ul>
+            <li><a href="/new_message/{{ area_content }}/{{ time }}">Lisää viesti</a></li>
+            <li><a href="/new_image/{{ area_content }}/{{ time }}">Lisää kuva</a></li>
+            <li><a href="/report_area/{{ area_content }}/{{ time }}">Kerro epäasiallisesta alueesta</a></li>
+            <li><a href="/">Etusivu</a></li>
+            <li><a href="/logout">Kirjaudu ulos</a></li>
+        </ul>
     </div>
 </div>  
 {% endif %}
