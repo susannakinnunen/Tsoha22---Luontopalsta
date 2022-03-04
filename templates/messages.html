@@ -18,6 +18,9 @@
         </ul>
     </div>
 </div>
+<div class="footer-container">
+    <div class="footer"><p>Olet kirjautunut käyttäjänimellä {{ user_name }}</p></div>
+</div>
 {% else %}
 <div class="flexbox-content_container">
     <div class="forum">
@@ -59,7 +62,7 @@
     </div>
 </div>
 <div class="footer-container">
-    <p>Olet kirjautunut käyttäjänimellä {{ user_name }}</p>
-    </div>
+    <div class="footer"><p>Olet kirjautunut käyttäjänimellä {{ user_name }}</p></div>
+</div>
 {% endif %}
 {% endblock %} 

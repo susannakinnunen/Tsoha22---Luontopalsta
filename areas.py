@@ -23,9 +23,9 @@ def get_area_id(area_content,time):
     return area_id
 
 
-def get_area_creator_id(area_content,time):
-    sql= "SELECT user_id FROM areas WHERE content=:area_content AND sent_at=:time"
-    result = db.session.execute(sql, {"area_content":area_content,"time":time})
+def get_area_creator_id(area_id):
+    sql= "SELECT user_id FROM areas WHERE id=:area_id"
+    result = db.session.execute(sql, {"area_id":area_id})
     list_result = result.fetchone()
     area_creator_id = list_result[0]
     return area_creator_id
@@ -54,7 +54,7 @@ def get_area_content(message_id):
 
 def send_report_area(area_content,report_message_content,time):
     area_id = get_area_id(area_content,time)
-    area_creator_id = get_area_creator_id(area_content,time)
+    area_creator_id = get_area_creator_id(area_id)
     reporter = users.user_id()
     if reporter == 0:
         return False

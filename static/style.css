@@ -33,7 +33,6 @@ a{
     display: flex;
     justify-content:space-evenly;
     min-height: 75vh;
-    background-color: blue;
 }
 
 .forum{
@@ -92,4 +91,15 @@ a{
 .footer-container{
     background-color: #33FF62; 
     margin: 10px;
+    display: flex;
+    min-height: 10vh;
+    width: 1600px;
+    margin-left: auto;
+    margin-right: auto;
+    justify-content: center;
+}
+
+.footer{
+    padding: 10px;
+    color: #555;
 }

@@ -286,9 +286,9 @@ def send_report_message(message_id,area_content,message_sent_at):
 
 @app.route("/query")
 def query():
-    if users.is_admin():
-        is_admin = True
-    return render_template("query.html", is_admin=is_admin)
+    user_name = users.get_user_name()
+    is_admin = users.is_admin()
+    return render_template("query.html", is_admin=is_admin, user_name=user_name)
 
 @app.route("/result")
 def result():
