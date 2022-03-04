@@ -34,7 +34,7 @@
         <p>
         <i>Ilmoitus annettu:</i> {{ message[5].strftime("%Y-%m-%d %H:%M:%S") }}
         <p>
-        <a href="/hide_message/{{ message[0] }}/{{ message[1] }}/{{ message[7] }}/{{ message[8] }}">Piilota viesti</a> | <a href="/remove_message_report/{{ message[8] }}">Poista ilmoitus (viesti pysyy keskustelussa).</a>
+        <a href="/hide_message/{{ message[9] }}">Piilota viesti</a> | <a href="/remove_message_report/{{ message[8] }}">Poista ilmoitus (viesti pysyy keskustelussa).</a>
         <hr>
         {% endfor %}
         </div>
@@ -47,5 +47,8 @@
         </ul>
     </div>
 </div>
+<div class="footer-container">
+    <p>Olet kirjautunut käyttäjänimellä {{ user_name }}</p>
+    </div>
 {% endif %}
 {% endblock %}

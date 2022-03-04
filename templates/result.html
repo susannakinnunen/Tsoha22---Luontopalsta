@@ -6,8 +6,17 @@
         {% for result in search_results %}
     <hr>
         <ul>
-            Alue: {{ result[1] }}
-            <li> Viesti: {{ result[0] }}</li>
+            <p><b>Alue: {{ result[1] }}</b> </p>
+            <li><b>Viesti: {{ result[0] }}</b></li>
+            {% for ob_info in ob_infos %}
+            {% if ob_info[2] == result[4] %}
+                <i><b>Sijainti</b></i> {{ ob_info[3] }} 
+                <p>
+                <i><b>Havainnon tai kokemuksen päivämäärä ja aika</b></i> {{ ob_info[0] }} klo {{ ob_info[1] }}
+                {% endif %}
+                {% endfor %}
+            <li>Lähettäjä: {{ result[2] }}</li>
+            <li>Viesti lähetetty: {{ result[3] }}</li>
         </ul>
         {% endfor %}
     </div>
@@ -19,4 +28,7 @@
         {% if is_admin %} <li><a href="/admin">Ylläpito</a><li> {% endif %} 
     </div>
 </div>
+<div class="footer-container">
+    <p>Olet kirjautunut käyttäjänimellä {{ user_name }}</p>
+    </div>
 {% endblock %}

@@ -1,10 +1,27 @@
 <!DOCTYPE html>
-<br>
-<form action="/deletion_confirmation/{{ message_id }}" method="POST">
-Oletko varma, että haluat poistaa viestin?:
-<p>
-{{ message_content }}
-<p>
-<input type="submit" value="Kyllä"> | <a href="/messages/{{ area_content }}/{{ area_creation_time }}">Ei, palaa takaisin keskustelualueelle {{ area_content }}</a>
-<input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
-</form>
+{% extends "layout.html" %}
+{% block content %}
+<div class="flexbox-content_container">
+    <div class="form">
+        <form action="/deletion_confirmation/{{ message_id }}" method="POST">
+        Oletko varma, että haluat poistaa viestin?
+        <p>
+        <b>{{ message_content }}</b>
+        <p>
+        <input type="submit" value="Kyllä"> | <a href="/messages/{{ area_content }}/{{ area_creation_time }}">Ei, palaa takaisin keskustelualueelle {{ area_content }}</a>
+        <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
+        </form>
+    </div>
+    <div class="nav">
+        <ul>
+            <li><a href="/">Etusivulle</a></li>
+            <li><a href="/query">Etsi viesti hakusanalla</a></li>
+            {% if is_admin %} <li><a href="/admin">Ylläpito</a></li> {% endif %}
+            <li><a href="/logout">Kirjaudu ulos</a></li>
+        </ul>
+    </div>
+</div>
+<div class="footer-container">
+    <p>Olet kirjautunut käyttäjänimellä {{ user_name }}</p>
+ </div>
+{% endblock %} 

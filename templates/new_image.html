@@ -4,7 +4,7 @@
 <div class="flexbox-content_container">
     <div class="form">
     <form action="/send_image/{{ area_content }}/{{ time }}" method="POST" enctype="multipart/form-data">
-        <p>{{ area_content }} - Lisää kuva</p>
+        <h3>{{ area_content }} - Lisää kuva</h3>
         <hr>
         Kuvan nimi: <input type="text" name="title"> <div class="error">{{ error1 }} {{ error2 }}</div>
         <p>
@@ -23,10 +23,15 @@
     <div class="nav">
         <ul>
             <li><a href="/">Etusivulle</a></li>
+            <li><a href="/query">Etsi viesti hakusanalla</a></li>
+            {% if is_admin %} <li><a href="/admin">Ylläpito</a></li> {% endif %}
             <li><a href="/logout">Kirjaudu ulos</a></li>
         </ul>
     </div>
 </div>
+<div class="footer-container">
+    <p>Olet kirjautunut käyttäjänimellä {{ user_name }}</p>
+    </div>
 
 {% endblock %} 
     

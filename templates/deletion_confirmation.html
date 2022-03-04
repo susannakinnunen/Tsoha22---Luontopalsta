@@ -1,4 +1,23 @@
-Viesti on nyt poistettu.
-<br>
-<hr>
-Palaa takaisin keskustelualueeseen: <a href="/messages/{{ area_content }}/{{ area_creation_time }}">{{ area_content}}</a>
+<!DOCTYPE html>
+{% extends "layout.html" %}
+{% block content %}
+<div class="flexbox-content_container">
+    <div class="form">
+        <p>Viesti on nyt poistettu.</p>
+    <p></p>
+    <hr>
+    Palaa takaisin keskustelualueeseen: <a href="/messages/{{ area_content }}/{{ area_creation_time }}">{{ area_content}}</a>
+    </div>
+    <div class="nav">
+        <ul>
+            <li><a href="/">Etusivulle</a></li>
+            <li><a href="/query">Etsi viesti hakusanalla</a></li>
+            {% if is_admin %} <li><a href="/admin">Ylläpito</a></li> {% endif %}
+            <li><a href="/logout">Kirjaudu ulos</a></li>
+        </ul>
+    </div>
+</div>
+<div class="footer-container">
+    <p>Olet kirjautunut käyttäjänimellä {{ user_name }}</p>
+ </div>
+ {% endblock %}

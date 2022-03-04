@@ -40,8 +40,10 @@ def send_message_edit():
 @app.route("/delete_message/<string:message_id>")
 def delete_message(message_id):
     user_name = users.get_user_name()
-    message_creator_id = messages.get_message_creator_id(message_id)
-    if user_name != message_creator_id:
+    print(user_name)
+    message_creator_name = messages.get_message_creator_name(message_id)
+    print(message_creator_name)
+    if user_name != message_creator_name:
        return redirect("/")
     message_content = messages.get_message(message_id)
     area_content = areas.get_area_content(message_id)
@@ -60,12 +62,13 @@ def deletion_confirmation(message_id):
 @app.route("/messages/<string:content>/<string:time>", methods=["GET"])
 def get_list_message(content,time):
     user_name = users.get_user_name()
+    admin = users.is_admin()
     area_content = content
     area_creation_time = time
     list = messages.get_list_message(area_content, area_creation_time)
     list_ob_info = messages.get_list_ob_info()
     list_images = images.get_list_image()
-    return render_template("messages.html", count=len(list), messages=list, ob_infos = list_ob_info, images=list_images, area_content=area_content, time=time, user_name=user_name)
+    return render_template("messages.html", count=len(list), messages=list, ob_infos = list_ob_info, images=list_images, area_content=area_content, time=time, user_name=user_name, is_admin=admin)
 
 @app.route("/admin")
 def admin():
@@ -79,24 +82,11 @@ def admin():
         is_admin = False
         return redirect("/")
 
-@app.route("/reported_areas")
-def get_list_reported_areas():
-    user_name = users.get_user_name()
-    list = areas.get_list_reported_areas()
-    if user_name == False:
-        return redirect("/")
-    if users.is_admin():
-        is_admin = True
-        return render_template("reported_areas.html", count=len(list), areas=list,user_name=user_name)
-    else: 
-        is_admin = False
-        return redirect("/")
-
-
 @app.route("/new_area")
 def new_area():
     user_name = users.get_user_name()
-    return render_template("new_area.html", user_name=user_name)
+    admin = users.is_admin()
+    return render_template("new_area.html", user_name=user_name, is_admin=admin)
 
 @app.route("/send_area", methods=["POST"])
 def send_area():
@@ -114,7 +104,8 @@ def send_area():
 @app.route("/new_message/<string:area_content>/<string:time>")
 def new_message(area_content,time):
     user_name = users.get_user_name()
-    return render_template("new_message.html", area_content=area_content, time=time, user_name=user_name)
+    admin = users.is_admin()
+    return render_template("new_message.html", area_content=area_content, time=time, user_name=user_name, is_admin=admin)
 
 
 @app.route("/send_message/<string:area_content>/<string:time>", methods=["POST"])
@@ -198,35 +189,88 @@ def send_report_area(area_content,time):
     areas.send_report_area(area_content,report_message_content,time)
     return redirect("/messages/" + str(area_content) + "/" + str(time))
 
-@app.route("/hide_area/<string:content>/<string:time>")
-def hide_area(content,time):
-    areas.hide_area(content,time)
-    return redirect("/reported_areas")
+@app.route("/reported_areas")
+def get_list_reported_areas():
+    user_name = users.get_user_name()
+    if user_name == False:
+        return redirect("/")
+    if users.is_admin():
+        is_admin = True
+        list = areas.get_list_reported_areas()
+        return render_template("reported_areas.html", count=len(list), areas=list,user_name=user_name)
+    else: 
+        is_admin = False
+        return redirect("/")
+
+@app.route("/hide_area/<string:area_id>")
+def hide_area(area_id):
+    user_name = users.get_user_name()
+    if user_name == False:
+        return redirect("/")
+    if users.is_admin():
+        is_admin = True
+        areas.hide_area(area_id)
+        return redirect("/reported_areas")
+    else: 
+        is_admin = False
+        return redirect("/")
+
+
+@app.route("/remove_area_report/<string:area_report_id>")
+def remove_area_report(area_report_id):
+    if users.is_admin():
+        is_admin = True
+        areas.remove_area_report(area_report_id)
+        return redirect("/reported_areas")
+    else:
+        redirect("/")
 
 
 @app.route("/reported_messages")
 def get_list_reported_messages():
     user_name = users.get_user_name()
-    list = messages.get_list_reported_messages()
     if user_name == False:
         return redirect("/")
     if users.is_admin():
         is_admin = True
+        list = messages.get_list_reported_messages()
+        for item in list:
+            print(f" {item[0]} and {item[9]}")
         return render_template("reported_messages.html", count=len(list), messages=list, user_name=user_name, is_admin=is_admin)
     else:
         return redirect("/")
 
 
-@app.route("/hide_message/<string:content>/<string:area_id>/<string:message_sent_at>/<string:message_id>")
-def hide_message(content,area_id,message_sent_at,message_id):
-    messages.hide_message(content,area_id,message_sent_at,message_id)
-    return redirect("/reported_messages")
+@app.route("/hide_message/<string:message_id>")
+def hide_message(message_id):
+    user_name = users.get_user_name()
+    if user_name == False:
+        return redirect("/")
+    if users.is_admin():
+        is_admin = True
+        messages.hide_message(message_id)
+        return redirect("/reported_messages")
+    else:
+        return redirect("/")
+    
+@app.route("/remove_message_report/<string:message_report_id>")
+def remove_message_report(message_report_id):
+    user_name = users.get_user_name()
+    if user_name == False:
+        return redirect("/")
+    if users.is_admin():
+        is_admin = True
+        messages.remove_message_report(message_report_id)
+        return redirect("/reported_messages")
+    else:
+        return redirect("/")
 
 
 @app.route("/report_message/<string:message_id>/<string:area_content>/<string:message_sent_time>")
 def report_message(message_id,area_content,message_sent_time):
     user_name = users.get_user_name()
     message_content = messages.get_message(message_id)
+    print(message_content)
     return render_template("report_message.html", message_id=message_id, message_content=message_content,area_content=area_content,message_sent_time=message_sent_time,user_name=user_name)
 
 @app.route("/send_report_message/<string:message_id>/<string:area_content>/<string:message_sent_at>", methods=["POST"])
@@ -239,19 +283,6 @@ def send_report_message(message_id,area_content,message_sent_at):
     messages.send_report_message(message_id,report_message_content,area_content,message_sent_at,area_sent_at)
     return redirect("/messages/" + str(area_content) + "/" + str(area_sent_at))
 
-@app.route("/remove_area_report/<string:area_report_id>")
-def remove_area_report(area_report_id):
-    if users.is_admin():
-        is_admin = True
-        areas.remove_area_report(area_report_id)
-        return redirect("/reported_areas")
-    else:
-        redirect("/")
-
-@app.route("/remove_message_report/<string:message_report_id>")
-def remove_message_report(message_report_id):
-    messages.remove_message_report(message_report_id)
-    return redirect("/reported_messages")
 
 @app.route("/query")
 def query():
@@ -264,16 +295,18 @@ def result():
     user_name = users.get_user_name()
     query = request.args["query"]
     search_results = messages.search(query)
+    ob_infos = messages.get_list_ob_info()
     if users.is_admin():
         is_admin = True
     if len(search_results) == 0:
         return render_template("query.html", is_admin=is_admin, error=f"Hakusanalla '{query}' ei tuloksia.")
-    return render_template("result.html", search_results=search_results, user_name=user_name,is_admin=is_admin)
+    return render_template("result.html", search_results=search_results, user_name=user_name,is_admin=is_admin, ob_infos=ob_infos)
 
 @app.route("/new_image/<string:area_content>/<string:time>")
 def new_image(area_content,time):
     user_name = users.get_user_name()
-    return render_template("new_image.html", area_content=area_content,time=time,user_name=user_name)
+    admin = users.is_admin()
+    return render_template("new_image.html", area_content=area_content,time=time,user_name=user_name, is_admin=admin)
 
 
 @app.route("/send_image/<string:area_content>/<string:time>", methods=["POST"])

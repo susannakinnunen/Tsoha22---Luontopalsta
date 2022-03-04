@@ -5,11 +5,10 @@
 <div class="flexbox-content_container">
     <div class="form">
         <form action="/send_report_message/{{ message_id }}/{{ area_content }}/{{ message_sent_time }}" method="POST">
-            Raportoi viesti:
+            <h4>Raportoi viesti:<br>
+                <i>{{ message_content }}</i></h4>
             <p>
             Alue: {{ area_content }}
-            <p>
-            Viesti:{{ message_content }}
             <p>
             Perustelut: <br>
             <textarea name="content" rows="3" cols="40"></textarea> {{ error }}
@@ -28,4 +27,7 @@
         </ul>
     </div>
 </div>    
+<div class="footer-container">
+    <p>Olet kirjautunut käyttäjänimellä {{ user_name }}</p>
+    </div>
 {% endblock %} 

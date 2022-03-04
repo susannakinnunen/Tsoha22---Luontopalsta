@@ -7,6 +7,12 @@ def get_list_message(area_content,time):
     result = db.session.execute(sql, {"area_id":area_id, "area_creation_time":time})
     return result.fetchall()
 
+def search(query):
+    sql = "SELECT M.content, A.content, U.username, M.sent_at, M.id FROM messages M, areas A, users U WHERE M.content LIKE :query AND M.area_id = A.id AND A.visible=True AND M.visible=True and M.user_id=U.id"
+    result = db.session.execute(sql, {"query":"%"+query+"%"})
+    messages = result.fetchall()
+    return messages
+
 def get_list_ob_info():
     sql = "SELECT day, time, message_id, location FROM observation_info"
     result = db.session.execute(sql)
@@ -40,6 +46,13 @@ def get_message_creator_id(message_id):
     message_creator_id = list_result[0]
     return message_creator_id
 
+def get_message_creator_name(message_id):
+    sql= "SELECT username FROM messages M, users U WHERE M.id=:message_id and U.id=M.user_id"
+    result = db.session.execute(sql, {"message_id":message_id})
+    list_result = result.fetchone()
+    message_creator_id = list_result[0]
+    return message_creator_id
+
 def send_report_message(message_id,report_message_content, area_content, message_sent_at, area_sent_at):
     reporter = users.user_id()
     message_creator_id = get_message_creator_id(message_id)
@@ -54,11 +67,10 @@ def get_list_reported_messages():
     result = db.session.execute(sql)
     return result.fetchall()
 
-def hide_message(content,area_id,message_sent_at, message_id):
-    sql = "UPDATE messages SET visible=False WHERE id=:message_id, content=:content AND area_id=:area_id AND sent_at=:message_sent_at"
-    db.session.execute(sql, {"content":content, "area_id":area_id, "message_sent_at":message_sent_at, "message_id":message_id})
+def hide_message(message_id):
+    sql = "UPDATE messages SET visible=False WHERE id=:message_id"
+    db.session.execute(sql, {"message_id":message_id})
     db.session.commit()
-    print("toimiiiko tämä")
     return True
 
 def remove_message_report(message_report_id):
@@ -79,12 +91,6 @@ def delete_message(message_id):
     db.session.execute(sql, {"message_id":message_id})
     db.session.commit()
     return True
-
-def search(query):
-    sql = "SELECT M.content, A.content FROM messages M, areas A WHERE M.content LIKE :query AND M.area_id = A.id AND A.visible=True AND M.visible=True"
-    result = db.session.execute(sql, {"query":"%"+query+"%"})
-    messages = result.fetchall()
-    return messages
 
 def get_area_id_with_message_id(message_id):
     sql= "SELECT area_id FROM messages WHERE id=:message_id"
