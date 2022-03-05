@@ -1,7 +1,7 @@
 # Tsoha22---Luontopalsta
 Luontopalsta on keskustelusovellus,jossa käyttäjät voivat kertoa luontohavainnoistaan ja -kokemuksistaan.
 
-Tällä hetkellä (20.2.) sovelluksessa on mahdollista kokeilla seuraavia toimintoja.
+Sovelluksessa on mahdollista kokeilla seuraavia toimintoja.
 
 - Käyttäjä voi kirjautua sisään ja ulos sekä luoda uuden tunnuksen.
 
@@ -11,7 +11,7 @@ Tällä hetkellä (20.2.) sovelluksessa on mahdollista kokeilla seuraavia toimin
 
 - Käyttäjä voi kirjoittaa uuden viestin tai lisätä uuden kuvan alueelle.
 
-- Käyttäjälle pakollisia merkintöjä viestin yhteydessä ovat havainnon päivämäärä ja maantieteellinen alue.
+- Käyttäjälle pakollisia merkintöjä viestin yhteydessä ovat havainnon päivämäärä, kellonaika ja maantieteellinen alue.
 
 - Käyttäjä voi muokata lähettämänsä viestin sisältöä tai poistaa sen. 
 
@@ -24,7 +24,5 @@ Tällä hetkellä (20.2.) sovelluksessa on mahdollista kokeilla seuraavia toimin
 Ylläpitäjän oikeuksia pääsee testaamaan tunnuksilla:
 Käyttäjätunnus: admin_testaus
 Salasana: K1lp1konna367
-
-Sovellus on vielä kesken, esimerkiksi eheää ulkoasua sille ei ole vielä rakennettu.
 
 Voit kokeilla sovellusta Herokussa: https://tsoha-luontopalsta.herokuapp.com/
