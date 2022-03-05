@@ -58,13 +58,15 @@ def send_report_area(area_content,report_message_content,time):
     reporter = users.user_id()
     if reporter == 0:
         return False
-    sql = "INSERT INTO reported_areas (area_id, sent_at, area_creator_id, reporter, report_message_content, area_created_at) VALUES (:area_id, NOW(), :area_creator_id, :reporter, :report_message_content, :time)"
+    sql = "INSERT INTO reported_areas (area_id, sent_at, area_creator_id, reporter, report_message_content, area_created_at) " \
+            "VALUES (:area_id, NOW(), :area_creator_id, :reporter, :report_message_content, :time)"
     result = db.session.execute(sql, {"area_id":area_id, "area_creator_id":area_creator_id, "reporter":reporter, "report_message_content":report_message_content, "time":time})
     db.session.commit()
     return True
 
 def get_list_reported_areas():
-    sql = "SELECT A.content, Ua.username, Ub.username, R.report_message_content, R.sent_at, R.area_created_at, Ub.id, R.id, A.id FROM areas A, users Ua, users Ub, reported_areas R WHERE A.id=R.area_id AND Ua.id=R.area_creator_id AND Ub.id=R.reporter AND A.visible=True"
+    sql = "SELECT A.content, Ua.username, Ub.username, R.report_message_content, R.sent_at, R.area_created_at, Ub.id, R.id, A.id FROM areas A, users Ua, users Ub, reported_areas R " \
+            "WHERE A.id=R.area_id AND Ua.id=R.area_creator_id AND Ub.id=R.reporter AND A.visible=True"
     result = db.session.execute(sql)
     return result.fetchall()
 

@@ -2,23 +2,25 @@
 {% block content %}
 <div class="flexbox-content_container">
     <div class="forum">
-        <h2>Tulokset</h2>
-        {% for result in search_results %}
-    <hr>
-        <ul>
-            <p><b>Alue: {{ result[1] }}</b> </p>
-            <li><b>Viesti: {{ result[0] }}</b></li>
-            {% for ob_info in ob_infos %}
-            {% if ob_info[2] == result[4] %}
-                <i><b>Sijainti</b></i> {{ ob_info[3] }} 
-                <p>
-                <i><b>Havainnon tai kokemuksen päivämäärä ja aika</b></i> {{ ob_info[0] }} klo {{ ob_info[1] }}
-                {% endif %}
-                {% endfor %}
-            <li>Lähettäjä: {{ result[2] }}</li>
-            <li>Viesti lähetetty: {{ result[3] }}</li>
-        </ul>
+        <div class="areas">
+            <h2>Tulokset</h2>
+            {% for result in search_results %}
+        <hr>
+                <p><i><b>Alue: {{ result[1] }}</b></i></p>
+                <p><i><b>Viesti:</b></i> {{ result[0] }}</p>
+                {% for ob_info in ob_infos %}
+                {% if ob_info[2] == result[4] %}
+                    <i><b>Sijainti:</b></i> {{ ob_info[3] }} 
+                    <br>
+                    <i><b>Havainnon tai kokemuksen päivämäärä ja aika</b></i> {{ ob_info[0] }} klo {{ ob_info[1] }}
+                    {% endif %}
+                    {% endfor %}
+                <br>
+                <b><i>Lähettäjä:</i></b> {{ result[2] }}
+                <br>
+                <b><i>Viesti lähetetty:</i></b> {{ result[3] }}
         {% endfor %}
+        </div>
     </div>
     <div class="nav">
         <ul>

@@ -4,15 +4,17 @@
 {% if session.user_id %}
     <div class="flexbox-content_container">
         <div class="forum">
-        <h2>Keskustelualueet</h2>
-        {% for area in areas %}
-        <a href="/messages/{{ area[0] }}/{{ area[2] }}">{{ area[0] }}</a>
-        <p>
-        <i>Lähettäjä:</i> {{ area[1] }}
-        <p>
-        <i>Lisätty:</i> {{ area[2].strftime("%Y-%m-%d %H:%M:%S") }}
-        <hr>
-    {% endfor %}
+            <div class="areas">
+                <h2>Keskustelualueet</h2>
+                {% for area in areas %}
+                <a href="/messages/{{ area[0] }}/{{ area[2] }}">{{ area[0] }}</a>
+                <p>
+                <i>Lähettäjä:</i> {{ area[1] }}
+                <p>
+                <i>Lisätty:</i> {{ area[2].strftime("%Y-%m-%d %H:%M:%S") }}
+                <hr>
+                {% endfor %}
+            </div>
         </div>
             <div class="nav">
                 <ul>
@@ -29,12 +31,14 @@
     {% else %}
     <div class="flexbox-content_container">
         <div class="forum">
-            <h2>Keskustelualueet</h2>
-            {% for area in areas %}
-            <hr>
-            {{ area[0] }}
-            <i>Lisätty:</i> {{ area[2].strftime("%Y-%m-%d %H:%M:%S") }}
-    {% endfor %} 
+            <div class="areas">
+                <h2>Keskustelualueet</h2>
+                {% for area in areas %}
+                {{ area[0] }}
+                <i>Lisätty:</i> {{ area[2].strftime("%Y-%m-%d %H:%M:%S") }}
+                <hr>
+                {% endfor %}
+            </div>
         </div>
         <div class="nav_index">
         <a href="/login">Kirjaudu sisään</a> | Ei vielä tunnusta? <a href="/register">Luo tunnus täällä!</a>

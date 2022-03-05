@@ -57,13 +57,15 @@ def send_report_message(message_id,report_message_content, area_content, message
     reporter = users.user_id()
     message_creator_id = get_message_creator_id(message_id)
     area_id = areas.get_area_id(area_content,area_sent_at)
-    sql = "INSERT INTO reported_messages (message_id, area_id, sent_at, message_creator_id, reporter, report_message_content,org_message_sent_at) VALUES (:message_id, :area_id, NOW(), :message_creator_id, :reporter, :report_message_content, :message_sent_at)"
+    sql = "INSERT INTO reported_messages (message_id, area_id, sent_at, message_creator_id, reporter, report_message_content,org_message_sent_at) "\
+            "VALUES (:message_id, :area_id, NOW(), :message_creator_id, :reporter, :report_message_content, :message_sent_at)"
     result = db.session.execute(sql, {"message_id":message_id, "area_id":area_id, "message_creator_id":message_creator_id, "reporter":reporter, "report_message_content":report_message_content, "message_sent_at":message_sent_at})
     db.session.commit()
     return True
 
 def get_list_reported_messages():
-    sql = "SELECT M.content, M.area_id, Ua.username, Ub.username, R.report_message_content, R.sent_at, A.content, M.sent_at, R.id, M.id FROM messages M, users Ua, users Ub, reported_messages R, areas A WHERE M.id=R.message_id AND Ua.id=R.message_creator_id AND Ub.id=R.reporter AND M.area_id=A.id AND A.id=R.area_id AND M.visible=True AND A.visible=True"
+    sql = "SELECT M.content, M.area_id, Ua.username, Ub.username, R.report_message_content, R.sent_at, A.content, M.sent_at, R.id, M.id FROM messages M, users Ua, users Ub, reported_messages R, areas A " \
+            "WHERE M.id=R.message_id AND Ua.id=R.message_creator_id AND Ub.id=R.reporter AND M.area_id=A.id AND A.id=R.area_id AND M.visible=True AND A.visible=True"
     result = db.session.execute(sql)
     return result.fetchall()
 

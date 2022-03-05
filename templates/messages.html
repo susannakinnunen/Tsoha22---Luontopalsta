@@ -25,29 +25,56 @@
 <div class="flexbox-content_container">
     <div class="forum">
         <h2>{{ area_content }}</h2>
-    {% for message in messages %}
-    <hr>
-    <i><b>Viesti</b></i> {{ message[0] }}
-    <p>
-        {% for image in images %}
-            {% if image[0] == message[3]  %}
+        <hr>
+        {% for message in messages %}
+        {% if user_name == message[1]%}
+        <div class="own-message-box">
+            <i><b>Viesti</b></i> {{ message[0] }}
             <p>
-            <a href="/show/{{ image[1] }}">Katso kuva {{ message[0] }}</a>
-            {% endif %}
+                {% for image in images %}
+                    {% if image[0] == message[3]  %}
+                    <p>
+                    <a href="/show/{{ image[1] }}">Katso kuva {{ message[0] }}</a>
+                    {% endif %}
+                {% endfor %}
+            <p>
+            {% for ob_info in ob_infos %}
+                {% if ob_info[2] == message[3] %}
+                    <i><b>Sijainti</b></i> {{ ob_info[3] }} 
+                    <p>
+                    <i><b>Havainnon tai kokemuksen päivämäärä ja aika</b></i> {{ ob_info[0] }} klo {{ ob_info[1] }}
+                    {% endif %}
+                    {% endfor %}
+            <p>
+            <i>Lähettäjä:</i> {{ message[1] }} | <i>Viesti lähetetty:</i> {{ message[2].strftime("%Y-%m-%d %H:%M:%S") }}
+            <p>
+            <a href="/report_message/{{ message[3] }}/{{ area_content }}/{{ message[2] }}">Kerro epäasiallisesta viestistä</a> {% if user_name == message[1]%}| <a href="/edit_message/{{ message[3] }}">Muokkaa viestiä</a> | <a href="/delete_message/{{ message[3] }}">Poista viesti</a> {% endif %}
+        </div>
+        {% else %}
+        <div class="message-box">
+            <i><b>Viesti</b></i> {{ message[0] }}
+            <p>
+                {% for image in images %}
+                    {% if image[0] == message[3]  %}
+                    <p>
+                    <a href="/show/{{ image[1] }}">Katso kuva {{ message[0] }}</a>
+                    {% endif %}
+                {% endfor %}
+            <p>
+            {% for ob_info in ob_infos %}
+                {% if ob_info[2] == message[3] %}
+                    <i><b>Sijainti</b></i> {{ ob_info[3] }} 
+                    <p>
+                    <i><b>Havainnon tai kokemuksen päivämäärä ja aika</b></i> {{ ob_info[0] }} klo {{ ob_info[1] }}
+                    {% endif %}
+                    {% endfor %}
+            <p>
+            <i>Lähettäjä:</i> {{ message[1] }} | <i>Viesti lähetetty:</i> {{ message[2].strftime("%Y-%m-%d %H:%M:%S") }}
+            <p>
+            <a href="/report_message/{{ message[3] }}/{{ area_content }}/{{ message[2] }}">Kerro epäasiallisesta viestistä</a> {% if user_name == message[1]%}| <a href="/edit_message/{{ message[3] }}">Muokkaa viestiä</a> | <a href="/delete_message/{{ message[3] }}">Poista viesti</a> {% endif %}
+        </div>
+        {% endif %}
         {% endfor %}
-    <p>
-    {% for ob_info in ob_infos %}
-        {% if ob_info[2] == message[3] %}
-            <i><b>Sijainti</b></i> {{ ob_info[3] }} 
-            <p>
-            <i><b>Havainnon tai kokemuksen päivämäärä ja aika</b></i> {{ ob_info[0] }} klo {{ ob_info[1] }}
-            {% endif %}
-            {% endfor %}
-    <p>
-    <i>Lähettäjä:</i> {{ message[1] }} | <i>Viesti lähetetty:</i> {{ message[2].strftime("%Y-%m-%d %H:%M:%S") }}
-    <p>
-    <a href="/report_message/{{ message[3] }}/{{ area_content }}/{{ message[2] }}">Kerro epäasiallisesta viestistä</a> {% if user_name == message[1]%}|| <a href="/edit_message/{{ message[3] }}">Muokkaa viestiä</a> | <a href="/delete_message/{{ message[3] }}">Poista viesti</a> {% endif %}
-    {% endfor %}
     </div>
     <div class="nav">
         <ul>

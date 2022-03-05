@@ -18,11 +18,16 @@ def index():
 
 @app.route("/edit_message/<string:message_id>")
 def edit_message(message_id):
-    message_content = messages.get_message(message_id)
     user_name = users.get_user_name()
-    return render_template("edit_message.html", message_content=message_content, message_id=message_id, user_name=user_name)
+    message_creator = messages.get_message_creator_name(message_id)
+    if user_name == message_creator:
+        message_content = messages.get_message(message_id)
+        return render_template("edit_message.html", message_content=message_content, message_id=message_id, user_name=user_name)
+    elif user_name == False:
+        return redirect("/")
+    else:
+       return redirect("/")
   
-
 @app.route("/send_message_edit", methods=["GET","POST"])
 def send_message_edit():
     check_csrf = users.check_csrf()
@@ -40,9 +45,7 @@ def send_message_edit():
 @app.route("/delete_message/<string:message_id>")
 def delete_message(message_id):
     user_name = users.get_user_name()
-    print(user_name)
     message_creator_name = messages.get_message_creator_name(message_id)
-    print(message_creator_name)
     if user_name != message_creator_name:
        return redirect("/")
     message_content = messages.get_message(message_id)
@@ -296,11 +299,10 @@ def result():
     query = request.args["query"]
     search_results = messages.search(query)
     ob_infos = messages.get_list_ob_info()
-    if users.is_admin():
-        is_admin = True
+    is_admin = users.is_admin()
     if len(search_results) == 0:
         return render_template("query.html", is_admin=is_admin, error=f"Hakusanalla '{query}' ei tuloksia.")
-    return render_template("result.html", search_results=search_results, user_name=user_name,is_admin=is_admin, ob_infos=ob_infos)
+    return render_template("result.html", search_results=search_results, user_name=user_name, is_admin=is_admin, ob_infos=ob_infos)
 
 @app.route("/new_image/<string:area_content>/<string:time>")
 def new_image(area_content,time):
@@ -328,16 +330,6 @@ def send_image(area_content,time):
         return render_template("new_image.html", area_content=area_content, time=time, user_name=user_name, error7="Kuva on liian iso. Maksimikoko on 307 kilotavua")
     if len(title) <= 0:
         return render_template("new_image.html", area_content=area_content, time=time, user_name=user_name, error1="Otsikko ei voi olla tyhjä")
-    """
-    if len(title) > 100:
-        return render_template("new_image.html", area_content=area_content, time=time, user_name=user_name, error2="Otsikko on liian pitkä")
-    if len(observation_date) <= 0:
-        return render_template("new_image.html", area_content=area_content, time=time, user_name=user_name, error3="Lisää vielä päivämäärä, kiitos!")
-    if len(observation_time) <= 0:
-        return render_template("new_image.html", area_content=area_content, time=time, user_name=user_name, error4="Lisää vielä kellonaika, kiitos!")
-    if len(location) <= 0:
-        return render_template("new_image.html", area_content=area_content, time=time, user_name=user_name, error5="Lisää vielä sijainti, kiitos!")
-    """
     image_id = images.send_image(name,data)
     message_id = messages.send_message(title,area_content,time,observation_date,observation_time,location)
     images.add_message_id(message_id,image_id)
